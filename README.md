@@ -27,16 +27,16 @@ choose
 * Clone Packages
 
 ```sh
-git clone https://github.com/lbaitemple/mini-pupper-aws
+git clone -b noetic https://github.com/lbaitemple/mini-pupper-aws
 
 ```
 
 Copy the following docker command for each line
 ```
 cd mini-pupper-aws
-docker build . -t mini-pupper-base:1.0 -f Dockerfile-Base
-docker build . -t mini-pupper-robot:1.0 -f Dockerfile-Robot
-docker build . -t mini-pupper-simulation:1.0 -f Dockerfile-Simulation
+docker build . -t mini-pupper-base:2.0 -f Dockerfile-Base
+docker build . -t mini-pupper-robot:2.0 -f Dockerfile-Robot
+docker build . -t mini-pupper-simulation:2.0 -f Dockerfile-Simulation
 ```
 
 You can run
