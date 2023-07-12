@@ -4,7 +4,7 @@
 # Source is previously built image
 FROM mini-pupper-base:2.0
 
-RUN sudo apt-get install -y python3-pip apt-utils
+RUN sudo apt-get install -y python3-pip apt-utils python-is-python3
 RUN pip3 install Inject==3.5.4
 
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
