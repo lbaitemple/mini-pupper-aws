@@ -26,6 +26,10 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep install --rosdistr
 # Add entrypoint script and grant permission
 COPY scripts/simulation-entrypoint.sh simulation-entrypoint.sh
 RUN sh -c 'sudo chmod +x simulation-entrypoint.sh && sudo chown robomaker:robomaker simulation-entrypoint.sh'
+COPY scripts/flip.sh flip.sh
+RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
+COPY scripts/dance.sh dance.sh
+RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
 # xterm for interactive debug
 RUN sudo apt install -y xterm
