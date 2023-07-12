@@ -43,6 +43,8 @@ You can run
 ```
 docker image list
 ```
+
+
 to see if three docker instances avaiable. Then, in terminal 1 you can
 ```
 docker run -it --net=host --privileged \
@@ -65,15 +67,86 @@ mini-pupper-simulation:1.0
 ```
 
 You should be able to the mini pupeert in the gazebo window
+###  Step 2: Upload the containers to Amazon ECR
+
+1. Navigate to the Amazon ECR console
+2. In the navigation pane, choose Create Repository
+3. For Repository Name, specify the name of repository. For this workshop, enter mini-pupper-robot
+4. Choose Create Repository
+
+#### Tag your images (the best way is to look at the pull command section)
+```
+docker tag mini-pupper-robot:1.0 111122223333.dkr.ecr.your-region.amazonaws.com/mini-pupper-robot:1.0
+docker push 111122223333.dkr.ecr.your-region.amazonaws.com/mini-pupper-robot:1.0
 
 
-### Step 2: Build the Robot and Simulation Applications
+docker tag mini-pupper-simulation:1.0 111122223333.dkr.ecr.your-region.amazonaws.com/mini-pupper-simulation:1.0
+docker push 111122223333.dkr.ecr.your-region.amazonaws.com/mini-pupper-simulation:1.0
+```
+where you will need to replace 111122223333 with your 12-digit AWS account number, and your-region with your region. 
+
+With the registry uploaded with docker images, we can run the robot application and the simulation applicaiton in AWS Robomaker
+
+Just select ECR repository to load image to each application accordingly
+
+After that, we can create a simulation job with these two applications. You will need to setup to Networking.
+
+For Robot Application, choose the previously created robot application mini-pupper-robot
+For Launch Command, specify the launch command as a comma-separated list of arguments. In this workshop, enter roslaunch, mini_pupper_dance, dance.launch, hardware_connected:=false
+
+Choose Add item and add the following to the Environment variables
+
+Name	Value
+
+GAZEBO_MASTER_URI	http://ROBOMAKER_SIM_APP_IP:11345
+
+ROS_IP	ROBOMAKER_ROBOT_APP_IP
+
+ROS_MASTER_URI	http://ROBOMAKER_ROBOT_APP_IP:11311
+
+
+In the Specify simulation application page, you set the launch configuration of the simulation application.
+
+For Simulation Application, choose the previously created simulation application mini-pupper-simulation
+For Launch Command, specify the launch command as a comma separated list of arguments. 
+
+In this workshop, enter roslaunch, mini_pupper_simulation, aws_stage.launch
+
+Select Run with streaming session to enable streaming the Gazebo GUI
+For Environment variables specify the following environment variables.
+
+Name	Value
+GAZEBO_MASTER_URI	http://ROBOMAKER_SIM_APP_IP:11345
+
+ROS_IP	ROBOMAKER_SIM_APP_IP
+
+ROS_MASTER_URI	http://ROBOMAKER_ROBOT_APP_IP:11311
+
+Select Simulation Application Tools then Customize tools, then Add tool
+
+In the Add tool window, set Name to xterm, and Command to /usr/bin/xterm
+
+For Exit behavior choose Restart from the drop-down
+
+Make sure the radio button next to Enable UI streaming is checked
+
+Check the box next to Send output to Amazon CloudWatch
+
+Click on Add tool to add the xterm tool
+
+### Step 2: Build the Robot and Simulation Applications in AWS Cloud9 
 
 * Clone Packages
 
 ```sh
-cd ~/
-git clone https://github.com/lbaitemple/mini-pupper-aws.git
+cd ~/environment/mini-pupper-aws
+pip install Inject==3.5.4
+sudo rosdep fix-permissions && rosdep update --include-eol-distros
+cd robot_ws
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+colcon build
+cd ../simulation_ws
+colcon build
 ```
 
 * Install Dependencies
