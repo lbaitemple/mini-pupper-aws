@@ -51,7 +51,7 @@ docker run -it --net=host --privileged \
 -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
 -u robomaker -e GAZEBO_MASTER_URI=http://localhost:5555 \
 -e ROS_MASTER_URI=http://localhost:11311 \
-mini-pupper-robot:1.0
+mini-pupper-robot:2.0
 ```
 Make sure you start gazebo screen, by ***preview, preview running application***. In the new terminal, click on **popuup** next to the **broswer**.
 
@@ -63,7 +63,7 @@ docker run -it --net=host --privileged \
 -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
 -u robomaker -e GAZEBO_MASTER_URI=http://localhost:5555 \
 -e ROS_MASTER_URI=http://localhost:11311 \
-mini-pupper-simulation:1.0
+mini-pupper-simulation:2.0
 ```
 
 You should be able to the mini pupeert in the gazebo window
