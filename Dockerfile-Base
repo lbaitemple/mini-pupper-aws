@@ -26,7 +26,7 @@ ENV QT_X11_NO_MITSHM=1
 # Install Gazebo 9
 RUN wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -; \
     sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-RUN apt-get update && apt-get install -y gazebo9 && apt-get clean
+RUN apt-get update && apt-get install -y gazebo11 && apt-get clean
 
 # Create user to reduce privilege
 ARG USERNAME=robomaker
