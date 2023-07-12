@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT-0
 
 # Source is previously built image
-FROM mini-pupper-base:1.0
+FROM mini-pupper-base:2.0
 
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
@@ -12,24 +12,20 @@ RUN sudo rosdep fix-permissions && rosdep update  --include-eol-distros
 WORKDIR /home/robomaker/workspace/robot_ws
 
 # Build the Robot application
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && rosdep install --rosdistro melodic --from-paths src --ignore-src -r -y && colcon build && sudo apt clean"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y && colcon build && sudo apt clean"
 
 WORKDIR /home/robomaker/workspace/simulation_ws
 
-RUN sudo apt install ros-melodic-gazebo-* ros-melodic-ros-control -y
+RUN sudo apt install ros-noetic-gazebo-* ros-noetic-ros-control -y
 
 # Build the Robot application
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && rosdep install --rosdistro melodic --from-paths src --ignore-src -r -y && colcon build --cmake-args '-Wno-dev' && sudo apt clean"
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y && colcon build --cmake-args '-Wno-dev' && sudo apt clean"
 # Change log leven to debug
-# RUN sudo sed -i 's/INFO/DEBUG/' /opt/ros/melodic/share/ros/config/rosconsole.config
+# RUN sudo sed -i 's/INFO/DEBUG/' /opt/ros/noetic/share/ros/config/rosconsole.config
 
 # Add entrypoint script and grant permission
 COPY scripts/simulation-entrypoint.sh simulation-entrypoint.sh
 RUN sh -c 'sudo chmod +x simulation-entrypoint.sh && sudo chown robomaker:robomaker simulation-entrypoint.sh'
-COPY scripts/flip.sh flip.sh
-RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
-COPY scripts/dance.sh dance.sh
-RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
 # xterm for interactive debug
 RUN sudo apt install -y xterm

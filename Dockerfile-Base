@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-FROM ros:melodic
+FROM ros:noetic
 
 ENV DEBIAN_FRONTEND noninteractive
 # Install common dependency and ROS tools
@@ -10,14 +10,14 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     sudo \
-    python-vcstool \
-    python-rosinstall \
+    python3-vcstool \
+    python3-rosinstall \
     python3-colcon-common-extensions \
-    ros-melodic-rviz \
-    ros-melodic-rqt \
-    ros-melodic-rqt-common-plugins \
-    ros-melodic-iris-lama \
-    ros-melodic-iris-lama-ros \
+    ros-noetic-rviz \
+    ros-noetic-rqt \
+    ros-noetic-rqt-common-plugins \
+    ros-noetic-iris-lama \
+    ros-noetic-iris-lama-ros \
     sphinxsearch \
     devilspie \
     xfce4-terminal
