@@ -27,7 +27,7 @@ choose
 * Clone Packages
 
 ```sh
-git clone --recursive https://github.com/mangdangroboticsclub/mini-pupper-aws.git /home/ubuntu/environment/mini-pupper-aws
+git clone https://github.com/lbaitemple/mini-pupper-aws
 
 ```
 
