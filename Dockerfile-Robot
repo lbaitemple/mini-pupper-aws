@@ -8,6 +8,7 @@ RUN sudo apt-get install -y python-pip apt-utils
 RUN pip install Inject==3.5.4
 
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
+ADD robot_ws/src/mini_pupper_dance/routines /home/robomaker/mini-pupper-aws/routines
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
 RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
 
