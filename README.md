@@ -16,9 +16,9 @@ choose
 
  1: **Create Environment** 
 
- 2. **New EC2 instance, Additional instance types, c4.xlarge, Ubuntu Server 18.04, Secure Shell (SSH)**
+ 2. **New EC2 instance, Additional instance types, c4.xlarge, Ubuntu Server 22.04, Secure Shell (SSH)**
 
- 3. **setup ROS Melodic** by running ```curl -fsSL "http://bit.ly/robomaker" | sudo -E bash -```
+ 3. **setup ROS Melodic** by running ```curl -fsSL "http://bit.ly/robomaker2204" | sudo -E bash -```
 
  4. **wait for 10 minues installation, then restart the instance by typing**
 ```sudo reboot```
