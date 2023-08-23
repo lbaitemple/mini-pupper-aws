@@ -34,9 +34,7 @@ git clone -b ros2 https://github.com/lbaitemple/mini-pupper-aws
 Copy the following docker command for each line
 ```
 cd mini-pupper-aws
-docker build . -t mini-pupper-base:1.0 -f Dockerfile-Base
-docker build . -t mini-pupper-robot:1.0 -f Dockerfile-Robot
-docker build . -t mini-pupper-simulation:1.0 -f Dockerfile-Simulation
+docker-compose build
 ```
 
 You can run
