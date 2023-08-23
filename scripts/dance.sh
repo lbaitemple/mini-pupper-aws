@@ -1,1 +1,1 @@
-rostopic pub /dance_config std_msgs/String "data: 'demo'"
+ros2 launch mini_pupper_dance dance.launch.py
