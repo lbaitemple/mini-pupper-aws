@@ -139,6 +139,7 @@ Click on Add tool to add the xterm tool
 ```sh
 cd ~/environment/mini-pupper-aws
 pip install Inject==3.5.4
+pip install setuptools==58.2.0
 sudo rosdep fix-permissions && rosdep update --include-eol-distros
 cd robot_ws
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
