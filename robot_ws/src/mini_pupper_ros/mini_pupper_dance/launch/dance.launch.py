@@ -1,9 +1,12 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument, LogInfo
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    
+    ld = LaunchDescription()
+    
+        
     dance_server_node = Node(
             package="mini_pupper_dance",
             namespace="",
@@ -22,8 +25,11 @@ def generate_launch_description():
             executable="pose_controller",
             name="pose_controller",
         )
-    return LaunchDescription([
-        dance_server_node,
-        dance_client_node,
-        pose_controller_node
-    ])
+ 
+    
+
+    ld.add_action(dance_server_node) 
+    ld.add_action(dance_client_node)
+    ld.add_action(pose_controller_node)   
+    
+    return ld
