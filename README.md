@@ -31,7 +31,15 @@ git clone -b ros2 https://github.com/lbaitemple/mini-pupper-aws
 
 ```
 
+If you need to complie on arm processor, you will need qemu package
+```
+sudo apt-get update && sudo apt-get install -y --no-install-recommends qemu-user-static binfmt-support
+sudo update-binfmts --enable qemu-arm
+sudo update-binfmts --display qemu-arm
+```
 Copy the following docker command for each line
+
+
 ```
 cd mini-pupper-aws
 docker-compose build
