@@ -39,7 +39,7 @@ RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
 
 WORKDIR /home/robomaker/workspace/robot_ws
 
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=robot_localization -y  && colcon build "
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins --skip-keys=robot_localization -y  && colcon build "
 # Add entrypoint script and grant permission
 COPY scripts/robot-entrypoint.sh robot-entrypoint.sh
 RUN sh -c 'sudo chmod +x robot-entrypoint.sh && sudo chown robomaker:robomaker robot-entrypoint.sh'
