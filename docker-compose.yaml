@@ -12,7 +12,7 @@ services:
 
   greengrass_bridge:
     image: ros-humble-greengrass-minipupper:latest
-    command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['chatter']" iot_topics:="['cloud_chatter']"
+    command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['dance_config']" iot_topics:="['cloud_chatter']"
     environment:
       - AWS_REGION
       - SVCUID
