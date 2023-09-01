@@ -1,6 +1,6 @@
 services:
   pupper-robot:
-    image: mini-pupper-robot:1.0
+    image: ros-humble-greengrass-minipupper:latest
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
