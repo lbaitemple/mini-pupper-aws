@@ -5,9 +5,9 @@ services:
         context: ./
     image: ros-humble-greengrass-minipupper:latest
 
-#  talker:
-#    image: ros-foxy-greengrass-demo:latest
-#    command: ros2 run demo_nodes_cpp talker
+  dancer:
+    image: ros-humble-greengrass-minipupper:latest
+    command: ros2 launch mini_pupper_dance ndance.launch.py
       
 
   greengrass_bridge:
