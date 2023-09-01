@@ -73,6 +73,10 @@ mini-pupper-simulation:1.0
 ```
 
 You should be able to the mini pupeert in the gazebo window
+```
+aws ecr create-repository --repository-name ros-humble-greengrass-minipupper | grep repositoryUri
+```
+
 ###  Step 2: Upload the containers to Amazon ECR
 
 1. Navigate to the Amazon ECR console
