@@ -29,7 +29,7 @@ RUN sh -c 'cd /home/$USERNAME'
 RUN sh -c 'mkdir -p /home/robomaker/workspace/robot_ws/src'
 
 RUN sudo apt-get install -y python3-pip apt-utils
-RUN pip install Inject==3.5.4
+RUN pip install Inject==3.5.4 setuptools==58.2.0
 
 
 ADD robot_ws/  /home/robomaker/workspace/robot_ws/
