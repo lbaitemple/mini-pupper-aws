@@ -195,7 +195,7 @@ roslaunch mini_pupper_simulation aws_stage.launch
 source /opt/ros/melodic/setup.bash
 source ~/environment/mini-pupper-aws/simulation_ws/install/setup.bash
 source ~/environment/mini-pupper-aws/robot_ws/install/setup.bash
-roslaunch mini_pupper_dance dance.launch hardware_connected:=false
+ros2 launch mini_pupper_dance ndance.launch.py hardware_connected:=false
 ```
 
 * Send a Message to Make Robot Dancing
@@ -203,7 +203,8 @@ roslaunch mini_pupper_dance dance.launch hardware_connected:=false
 ```sh
 # terminal 3
 source /opt/ros/melodic/setup.bash
-rostopic pub /dance_config std_msgs/String "data: 'demo'"
+ros2 topic pub --once /dance_config std_msgs/String "data: 'demo'"
+
 ```
 
 ### Step 4: Modify the Dance Routine
@@ -292,8 +293,8 @@ roslaunch mini_pupper_dance dance.launch hardware_connected:=false
 
 ```sh
 # terminal 3, send a message to specify which dance routine you choose
-source /opt/ros/melodic/setup.bash
-rostopic pub /dance_config std_msgs/String "data: 'my_demo'"
+source /opt/ros/humble/setup.bash
+ros2 topic pub --once /dance_config std_msgs/String "data: 'my_demo'"
 ```
 
 ## Activity 2: Deploy and Run the Dance Robot
