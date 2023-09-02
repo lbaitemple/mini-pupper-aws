@@ -37,6 +37,11 @@ sudo apt-get update && sudo apt-get install -y --no-install-recommends qemu-user
 sudo update-binfmts --enable qemu-arm
 sudo update-binfmts --display qemu-arm
 ```
+
+```
+sudo apt-get install -y qemu-user-static binfmt-support
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
 Copy the following docker command for each line
 
 
