@@ -1,0 +1,9 @@
+repositories:
+  champ/champ:
+    type: git
+    url: https://github.com/chvmp/champ.git
+    version: ros2
+  champ/champ_teleop:
+    type: git
+    url: https://github.com/chvmp/champ_teleop.git
+    version: ros2
