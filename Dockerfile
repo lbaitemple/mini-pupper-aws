@@ -39,7 +39,7 @@ RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
 
 WORKDIR /home/robomaker/workspace/robot_ws
 
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins --skip-keys=robot_localization -y  && colcon build "
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins --skip-keys=robot_localization -y  && colcon build      --install-base /opt/ros-minipupper-package  "
 # Add entrypoint script and grant permission
 COPY scripts/robot-entrypoint.sh robot-entrypoint.sh
 RUN sh -c 'sudo chmod +x robot-entrypoint.sh && sudo chown robomaker:robomaker robot-entrypoint.sh'
@@ -47,6 +47,28 @@ RUN sh -c 'sudo chmod +x robot-entrypoint.sh && sudo chown robomaker:robomaker r
 COPY scripts/dance.sh dance.sh
 RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
+# ==== Package 2: Greengrass Bridge Node ==== 
+FROM build-base AS greengrass-bridge-package
+LABEL component="com.example.ros2.minipupper"
+LABEL build_step="GreengrassBridgeROSPackage_Build"
+ARG LOCAL_WS_DIR
+
+COPY ${LOCAL_WS_DIR}/src /ws/src
+WORKDIR /ws
+
+# Cache the colcon build directory.
+RUN --mount=type=cache,target=${LOCAL_WS_DIR}/build:/ws/build \
+    . /opt/ros/$ROS_DISTRO/setup.sh && \
+    colcon build \
+     --install-base /opt/greengrass_bridge
+
+
+# ==== ROS Runtime Image (with the two packages) ====
+FROM build-base AS runtime-image
+LABEL component="com.example.ros2.minipupper"
+
+COPY --from=ros-minipupper-package /opt/ros-minipupper-package /ros-minipupper-package
+COPY --from=greengrass-bridge-package /opt/greengrass_bridge /opt/greengrass_bridge
 
 CMD ros2 launch mini_pupper_bringup bringup.launch.py 
 ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robot-entrypoint.sh" ]
