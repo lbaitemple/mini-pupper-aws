@@ -361,6 +361,11 @@ sudo docker run -id --name ros_noetic --network host \
 0nhc/mnpp:test
 sudo xhost +
 ```
+
+```
+export ARTIFACT_DIR=/greengrass/v2/packages/artifacts/com.example.ros.pupper.dance/1.0.0/
+sudo docker-compose -f $ARTIFACT_DIR/docker-compose.yaml logs --follow
+```
 # Attribution
 
 ["Simple Concert Stage"](https://sketchfab.com/3d-models/simple-concert-stage-d5c7733d06d24947bf60b3a0fe203f69) by [mertbbicak](https://sketchfab.com/mertbbicak) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). AWS banner has been added to the model.
