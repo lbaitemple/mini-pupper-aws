@@ -226,9 +226,9 @@ ros2 topic pub --once /dance_config std_msgs/String "data: 'demo'"
 
 
 ```
-aws s3 cp greengrass/docker-compose.yaml s3://${DEPLOYMENT_BUCKET}/artifacts/docker-compose.yaml
-aws s3 sync robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ s3://${DEPLOYMENT_BUCKET}/artifacts/routines
-
+# aws s3 cp greengrass/docker-compose.yaml s3://${DEPLOYMENT_BUCKET}/artifacts/docker-compose.yaml
+# aws s3 sync robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ s3://${DEPLOYMENT_BUCKET}/artifacts/routines
+aws s3 cp docker-compose.yaml s3://mangdang/com.example.ros.pupper.dance/1.0.0/artifacts/docker-compose.yaml
 aws greengrassv2 create-component-version   --inline-recipe fileb://greengrass/com.example.ros.pupper.dance/1.0.0/recipes/recipe.yaml
 ```
 ### Step 4: Modify the Dance Routine
