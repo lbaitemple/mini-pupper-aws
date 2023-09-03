@@ -7,7 +7,7 @@ LABEL build_step="ROSMiniPupper_Build"
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
 RUN apt-get update && apt-get install python3-pip -y
-RUN apt-get update && apt-get install ros-$ROS_DISTRO-example-interfaces
+RUN apt-get update && apt-get install ros-$ROS_DISTRO-example-interfaces ros-$ROS_DISTRO-robot-localization -y
 RUN python3 -m pip install awsiotsdk
 
 # ==== Package 1: ROS2 mini pupper dance script ==== 
