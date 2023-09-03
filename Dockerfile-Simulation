@@ -12,25 +12,18 @@ RUN sudo rosdep fix-permissions && rosdep update  --include-eol-distros
 # because of dependency on mini_pupper_description, build robot_ws
 WORKDIR /home/robomaker/workspace/simulation_ws
 
-# Build the Robot application
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --rosdistro humble --from-paths src --ignore-src -r -y && colcon build && sudo apt clean"
-
-WORKDIR /home/robomaker/workspace/simulation_ws
-
-#RUN sudo apt install ros-humble-gazebo-* ros-humble-ros-control -y
+RUN sudo apt install ros-humble-teleop-twist-keyboard -y
 
 # Build the Robot application
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --rosdistro melodic --from-paths src --ignore-src -r -y && colcon build --cmake-args '-Wno-dev' && sudo apt clean"
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --rosdistro humble --from-paths src --ignore-src -r -y && colcon build --cmake-args '-Wno-dev' && sudo apt clean"
 # Change log leven to debug
 # RUN sudo sed -i 's/INFO/DEBUG/' /opt/ros/humble/share/ros/config/rosconsole.config
 
 # Add entrypoint script and grant permission
 COPY scripts/simulation-entrypoint.sh simulation-entrypoint.sh
 RUN sh -c 'sudo chmod +x simulation-entrypoint.sh && sudo chown robomaker:robomaker simulation-entrypoint.sh'
-COPY scripts/flip.sh flip.sh
-RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
-COPY scripts/dance.sh dance.sh
-RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
+COPY scripts/move.sh move.sh
+RUN sh -c 'sudo chmod +x move.sh && sudo chown robomaker:robomaker move.sh'
 
 # xterm for interactive debug
 RUN sudo apt install -y xterm
