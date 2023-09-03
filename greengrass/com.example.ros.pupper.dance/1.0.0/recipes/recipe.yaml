@@ -19,8 +19,8 @@ ComponentConfiguration:
           - "aws.greengrass#PublishToIoTCore"
           - "aws.greengrass#SubscribeToIoTCore"
           resources:
-          - "chatter"
-          - "cloud_chatter"
+          - "dance_config"
+          - "cloud_dance_config"
 Manifests:
   - Platform:
       os: all
