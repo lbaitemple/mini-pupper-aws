@@ -8,6 +8,13 @@ services:
   dancer:
     image: ros-humble-greengrass-minipupper:latest
     command: ros2 launch mini_pupper_dance ndance.launch.py
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - GAZEBO_MASTER_URI=http://localhost:5555
+      - ROS_MASTER_URI=http://localhost:11311
+      - DANCE_CONFIG=/home/robomaker/routines
+      - HARDWARE=true
       
 
   greengrass_bridge:
