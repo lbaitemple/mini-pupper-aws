@@ -15,6 +15,15 @@ services:
       - ROS_MASTER_URI=http://localhost:11311
       - DANCE_CONFIG=/home/robomaker/routines
       - HARDWARE=true
+    network_mode: "host"
+    privileged: true
+    user: root
+    volumes:
+      - /greengrass:/greengrass
+      - /dev:/dev
+      - /sys:/sys
+      - /tmp/.X11-unix/:/tmp/.X11-unix/
+      - /home/ggc_user/routines:/home/robomaker/routines
       
 
   greengrass_bridge:
