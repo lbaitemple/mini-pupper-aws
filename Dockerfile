@@ -28,7 +28,7 @@ RUN bash -c 'cd /home/$USERNAME'
 RUN bash -c 'mkdir -p /home/robomaker/workspace/robot_ws/src && cd /home/robomaker/workspace'
 
 #RUN sudo apt-get install -y python-pip apt-utils
-#RUN pip install Inject==3.5.4 setuptools==58.2.0
+RUN python3 -m pip install Inject==3.5.4 setuptools==58.2.0 awsiotsdk
 
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
 RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
@@ -37,7 +37,7 @@ WORKDIR /home/robomaker/workspace/robot_ws
 
 
 # Build the Robot application
-RUN bash -c 'source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins --skip-keys=robot_localization -y  && colcon build && sudo apt clean'
+RUN bash -c 'source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins -y  && colcon build && sudo apt clean'
 
 # Add entrypoint script and grant permission
 COPY scripts/robot-entrypoint.sh robot-entrypoint.sh
