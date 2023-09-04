@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install common dependency and ROS tools
 RUN apt-get update && apt-get install -y \
     lsb  \
+    git \
     unzip \
     wget \
     curl \
@@ -29,6 +30,12 @@ RUN bash -c 'mkdir -p /home/robomaker/workspace/robot_ws/src && cd /home/robomak
 
 #RUN sudo apt-get install -y python-pip apt-utils
 RUN python3 -m pip install Inject==3.5.4 setuptools==58.2.0 awsiotsdk
+# install mangdang v2
+WORKDIR /home/robomaker/workspace
+RUN bash -c 'git clone https://github.com/mangdangroboticsclub/mini_pupper_2_bsp'
+WORKDIR /home/robomaker/workspace/mini_pupper_2_bsp/Python_Module
+RUN sudo python3 setup.py install
+#RUN pip install -e "vcs+protocol://github.com/mangdangroboticsclub/mini_pupper_2_bsp/#egg=pkg&subdirectory=Python_Module"
 
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
 RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
