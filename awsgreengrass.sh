@@ -3,10 +3,12 @@
 #aws iot describe-endpoint
 export DEPLOYMENT_BUCKET=mangdang2023
 
-##### no need to change anything below
+
 export DANCE_FILE=demo.py
 export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'` 
 cd ~/environment/mini-pupper-aws
+
+##### no need to change anything below
 aws s3 cp greengrass/docker-compose.yaml s3://${DEPLOYMENT_BUCKET}/artifacts/docker-compose.yaml
 aws s3 sync ~/environment/mini-pupper-aws/robot_ws/src/mini_pupper_dance/routines s3://${DEPLOYMENT_BUCKET}/artifacts/routines
 IOT_CONFIG_FILE=greengrass/aws_iot_params.yaml
