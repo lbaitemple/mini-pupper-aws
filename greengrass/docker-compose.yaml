@@ -1,6 +1,13 @@
+version: "3"
 services:
+  greengrass_minipupper_image:
+    build: 
+        context: ./
+    image: ros-humble-greengrass-minipupper:latest
+    
   pupper-robot:
-    image: mini-pupper-robot:1.0
+    image: ros-humble-greengrass-minipupper:latest
+    command: ros2 launch mini_pupper_dance ndance.launch.py  hardware_connected:=false
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
@@ -16,5 +23,6 @@ services:
       - /dev:/dev
       - /sys:/sys
       - /tmp/.X11-unix/:/tmp/.X11-unix/
+      - /tmp/esp32-proxy.socket:/tmp/esp32-proxy.socket
       - /home/ggc_user/routines:/home/robomaker/routines
       - /home/ggc_user/aws_iot_params.yaml:/config/aws_iot_params.yaml

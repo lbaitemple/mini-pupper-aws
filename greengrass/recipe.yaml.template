@@ -33,14 +33,16 @@ Manifests:
         Install:
           Script: |
             echo "Installing the dance application! This will run everytime the Greengrass core software is started."
+            docker tag YOUR_PRIVATE_ECR_IMAGE ros-humble-greengrass-minipupper:latest
         Run:
           Script: |
             echo "Running the dance application! This is the main application execution script."
-            docker compose -f {artifacts:path}/docker-compose.yaml up
+            docker-compose -f {artifacts:path}/docker-compose.yaml up
         Shutdown: |
             echo "Shutting down the dance application! This will run each time the component is stopped."
-            docker compose -f {artifacts:path}/docker-compose.yaml down
+            docker-compose -f {artifacts:path}/docker-compose.yaml down
     Artifacts:
+      - URI: "docker:YOUR_PRIVATE_ECR_IMAGE"
       - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/docker-compose.yaml"
       - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/aws_iot_params.yaml"
       - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/routines/DANCE_ROUTINE_PLACEHOLDER"
