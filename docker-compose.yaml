@@ -7,7 +7,7 @@ services:
 
   dancer:
     image: ros-humble-greengrass-minipupper:latest
-    command: ros2 launch mini_pupper_dance ndance.launch.py
+    command: ros2 launch mini_pupper_dance ndance.launch.py  hardware_connected:=false
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
@@ -23,6 +23,7 @@ services:
       - /dev:/dev
       - /sys:/sys
       - /tmp/.X11-unix/:/tmp/.X11-unix/
+      - /tmp/esp32-proxy.socket:/tmp/esp32-proxy.socket 
       - /home/ggc_user/routines:/home/robomaker/routines
       
 
