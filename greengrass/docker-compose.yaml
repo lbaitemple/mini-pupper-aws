@@ -1,6 +1,7 @@
 services:
   pupper-robot:
     image: ros-humble-greengrass-minipupper:latest
+    command: ros2 launch mini_pupper_dance ndance.launch.py  hardware_connected:=false
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
