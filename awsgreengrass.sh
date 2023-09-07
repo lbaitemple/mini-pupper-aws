@@ -3,15 +3,15 @@
 #aws iot describe-endpoint
 export DEPLOYMENT_BUCKET=mangdang2023
 
-
+export DOCKER=ros-humble-greengrass-minipupper
 export DANCE_FILE=demo.py
 export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'` 
-export YOUR_PRIVATE_ECR_IMAGE=`aws ecr describe-repositories | grep repositoryUri | grep ros-humble-greengrass-minipupper | cut -d: -f 2 | sed 's/\"//g' | sed 's/\,//g'` | tr -d ' '
+export YOUR_PRIVATE_ECR_IMAGE=`aws ecr describe-repositories | grep repositoryUri | grep ${DOCKER}  | cut -d: -f 2 | sed 's/\"//g' | sed 's/\,//g' | tr -d ' '`
 #cd ~/environment/mini-pupper-aws
 export ECR_IMAGE=${YOUR_PRIVATE_ECR_IMAGE}":latest"
 echo $ECR_IMAGE
 export RECIPE_CONFIG_FILE=greengrass/recipe.yaml
-
+export DEPLOYMENT_BUCKET=${DEPLOYMENT_BUCKET}"/mini_pupper"
 ##### no need to change anything below
 aws s3 cp greengrass/docker-compose.yaml s3://${DEPLOYMENT_BUCKET}/artifacts/docker-compose.yaml
 aws s3 sync robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines s3://${DEPLOYMENT_BUCKET}/artifacts/routines
