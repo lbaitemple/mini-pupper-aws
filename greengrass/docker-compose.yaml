@@ -13,7 +13,7 @@ services:
       - QT_X11_NO_MITSHM=1
       - GAZEBO_MASTER_URI=http://localhost:5555
       - ROS_MASTER_URI=http://localhost:11311
-      - DANCE_CONFIG=/home/robomaker/routines
+      - DANCE_CONFIG=/root/routines
       - HARDWARE=true
     network_mode: "host"
     privileged: true
@@ -24,8 +24,7 @@ services:
       - /sys:/sys
       - /tmp/.X11-unix/:/tmp/.X11-unix/
       - /tmp/esp32-proxy.socket:/tmp/esp32-proxy.socket
-      - /home/ggc_user/routines:/home/robomaker/routines
-      - /home/ggc_user/aws_iot_params.yaml:/config/aws_iot_params.yaml
+      - /home/ggc_user/routines:/root/routines
       
   greengrass_bridge:
     image: ros-humble-greengrass-minipupper:latest
