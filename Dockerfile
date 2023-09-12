@@ -1,59 +1,50 @@
-# Source is previously built image
-FROM --platform=linux/arm64  ros:humble
+# Set main arguments.
+ARG ROS_DISTRO=humble
+ARG LOCAL_WS_DIR=workspace
 
-ENV DEBIAN_FRONTEND noninteractive
-# Install common dependency and ROS tools
-RUN apt-get update && apt-get install -y \
-    lsb  \
-    git \
-    unzip \
-    wget \
-    curl \
-    sudo \
-    python3-vcstool \
-    python3-pip \
-    python3-rosinstall \
-    python3-colcon-common-extensions
+# ==== ROS Build Stages ====
 
-ENV QT_X11_NO_MITSHM=1
+# ==== Base ROS Build Image ====
+FROM --platform=linux/arm64 ros:${ROS_DISTRO}-ros-base AS build-base
+LABEL component="com.example.ros2.demo"
+LABEL build_step="ROSDemoNodes_Build"
 
-# Create user to reduce privilege
-ARG USERNAME=robomaker
-RUN groupadd $USERNAME && \
-    useradd -ms /bin/bash -g $USERNAME $USERNAME && \
-    bash -c 'echo "$USERNAME ALL=(root) NOPASSWD:ALL" >> /etc/sudoers'
-    
-# Switch to newly created user    
-USER $USERNAME
-RUN bash -c 'cd /home/$USERNAME'
-RUN bash -c 'mkdir -p /home/robomaker/workspace/robot_ws/src && cd /home/robomaker/workspace'
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
+RUN apt-get update && apt-get install python3-pip -y
+RUN apt-get update && apt-get install ros-$ROS_DISTRO-xacro
+RUN python3 -m pip install  Inject==3.5.4 setuptools==58.2.0 awsiotsdk
 
-#RUN sudo apt-get install -y python-pip apt-utils
-RUN python3 -m pip install Inject==3.5.4 setuptools==58.2.0 awsiotsdk
+# ==== Package 1: ROS Demos Talker/Listener ==== 
+FROM build-base AS ros-mini_pupper-package
+LABEL component="com.example.ros2.mini_pupper_v2"
+LABEL build_step="DemoNodesROSPackage_Build"
+
+# Clone the demos_ros_cpp package from within the ROS Demos monorepo.
+RUN mkdir -p /ws/src
+WORKDIR /tmp
+
 # install mangdang v2
-WORKDIR /home/robomaker/workspace
 RUN bash -c 'git clone https://github.com/mangdangroboticsclub/mini_pupper_2_bsp'
-WORKDIR /home/robomaker/workspace/mini_pupper_2_bsp/Python_Module
-RUN sudo python3 setup.py install
-#RUN pip install -e "vcs+protocol://github.com/mangdangroboticsclub/mini_pupper_2_bsp/#egg=pkg&subdirectory=Python_Module"
+WORKDIR /tmp/mini_pupper_2_bsp/Python_Module
+RUN python3 setup.py install
 
-ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
-RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
+ADD robot_ws/src /ws/src
+WORKDIR /ws
+RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
+    rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} \
+    --skip-keys=joint_state_publisher_gui --skip-keys=rviz2 \
+    --skip-keys=nav2_bringup --skip-keys=gazebo_plugins \
+    --skip-keys=velodyne_gazebo_plugins -y && \
+    colcon build --build-base workspace/build --install-base /opt/ros_demos
 
-WORKDIR /home/robomaker/workspace/robot_ws
+# ==== ROS Runtime Image (with the two packages) ====
+FROM build-base AS runtime-image
+LABEL component="com.example.ros2.mini_pupper_v2"
 
+COPY --from=ros-mini_pupper-package /opt/ros_demos /opt/ros_demos
 
-# Build the Robot application
-RUN bash -c 'source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} --skip-keys=joint_state_publisher_gui --skip-keys=nav2_bringup --skip-keys=gazebo_plugins  --skip-keys=velodyne_gazebo_plugins -y  && colcon build && sudo apt clean'
+WORKDIR /
+COPY scripts/robot-entrypoint.sh  /robot-entrypoint.sh
+RUN chmod +x /robot-entrypoint.sh
+ENTRYPOINT ["/robot-entrypoint.sh"]
 
-# Add entrypoint script and grant permission
-COPY scripts/robot-entrypoint.sh robot-entrypoint.sh
-RUN bash -c 'sudo chmod +x robot-entrypoint.sh && sudo chown robomaker:robomaker robot-entrypoint.sh'
-
-RUN sudo mkdir -p /config/certs/
-
-# xterm for interactive debug
-#RUN sudo apt install -y xterm
-
-#CMD roslaunch mini_pupper_dance dance.launch hardware_connected:=false
-ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robot-entrypoint.sh" ]

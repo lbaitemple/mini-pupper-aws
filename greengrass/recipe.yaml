@@ -1,18 +1,28 @@
 ---
 RecipeFormatVersion: '2020-01-25'
-ComponentName: com.example.ros.pupper.dance
+ComponentName: com.example.ros2.mini_pupper_v2
 ComponentVersion: '1.0.0'
-ComponentDescription: 'The ROS Pupper Dance Application'
+ComponentDescription: 'A basic component that runs a mini_pupper_v2 application'
 ComponentPublisher: Amazon
 ComponentDependencies:
   aws.greengrass.DockerApplicationManager:
-    VersionRequirement: ">=2.0.0 <2.1.0"
+    VersionRequirement: ~2.0.0
   aws.greengrass.TokenExchangeService:
-    VersionRequirement: ">=2.0.0 <2.1.0"
+    VersionRequirement: ~2.0.0
 ComponentConfiguration:
   DefaultConfiguration:
-    auto_start: True
+    accessControl:
+      aws.greengrass.ipc.mqttproxy:
+        com.example.PubSubPublisher:pubsub:1:
+          policyDescription: "Allows access to publish and subscribe to MQTT topics."
+          operations:
+          - "aws.greengrass#PublishToIoTCore"
+          - "aws.greengrass#SubscribeToIoTCore"
+          resources:
+          - "dance_config"
+          - "cloud_dance_config"
 Manifests:
+
   - Platform:
       os: all
     Lifecycle:
@@ -20,29 +30,20 @@ Manifests:
           RequiresPrivilege: True
           Script: |
             echo "Bootstrapping the dance application! as root This runs only once during the deployment."
-            mkdir -p /home/ggc_user/routines/
-            cp {artifacts:path}/*.py /home/ggc_user/routines/
             cp {artifacts:path}/aws_iot_params.yaml /home/ggc_user/aws_iot_params.yaml
-            chown -R ggc_user:ggc_group /home/ggc_user/routines/
             cat << EOF > {artifacts:path}/.env
             AUTO_START={configuration:/auto_start}
             SVCUID=$SVCUID
             AWS_GG_NUCLEUS_DOMAIN_SOCKET_FILEPATH_FOR_COMPONENT=$AWS_GG_NUCLEUS_DOMAIN_SOCKET_FILEPATH_FOR_COMPONENT
             EOF
             chown ggc_user:ggc_group {artifacts:path}/.env
-        Install:
-          Script: |
-            echo "Installing the dance application! This will run everytime the Greengrass core software is started."
-            docker tag 454405847639.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest ros-humble-greengrass-minipupper:latest
-        Run:
-          Script: |
-            echo "Running the dance application! This is the main application execution script."
-            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml --profile pupper-robot up
+        Install: |
+           docker tag 717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest  ros-humble-greengrass-minipupper:latest
+        Startup: |
+           docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml up -d
         Shutdown: |
-            echo "Shutting down the dance application! This will run each time the component is stopped."
-            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml down
+           docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml down
     Artifacts:
-      - URI: "docker:454405847639.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest"
-      - URI: "s3://mangdang2023/mini_pupper/artifacts/docker-compose_nobuild.yaml"
-      - URI: "s3://mangdang2023/mini_pupper/artifacts/aws_iot_params.yaml"
-      - URI: "s3://mangdang2023/mini_pupper/artifacts/routines/demo.py"
+      - URI: "docker:717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest"
+      - URI: "s3://mangdang2023911/mini_pupper/artifacts/docker-compose_nobuild.yaml"
+      - URI: "s3://mangdang2023911/mini_pupper/artifacts/routines/demo.py"          
