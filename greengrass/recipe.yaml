@@ -1,7 +1,7 @@
 ---
 RecipeFormatVersion: '2020-01-25'
 ComponentName: com.example.ros2.mini_pupper_v2
-ComponentVersion: '1.0.0'
+ComponentVersion: '1.0.4'
 ComponentDescription: 'A basic component that runs a mini_pupper_v2 application'
 ComponentPublisher: Amazon
 ComponentDependencies:
@@ -30,7 +30,8 @@ Manifests:
           RequiresPrivilege: True
           Script: |
             echo "Bootstrapping the dance application! as root This runs only once during the deployment."
-            cp {artifacts:path}/aws_iot_params.yaml /home/ggc_user/aws_iot_params.yaml
+            cp {artifacts:path}/routines/ /home/ggc_user/routines/ 
+            cp {artifacts:path}/routines/docker-compose_nobuild.yaml /home/ggc_user/
             cat << EOF > {artifacts:path}/.env
             AUTO_START={configuration:/auto_start}
             SVCUID=$SVCUID

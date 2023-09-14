@@ -18,14 +18,14 @@ services:
       - /greengrass:/greengrass
       - /dev:/dev
       - /sys:/sys
-      - /tmp/.X11-unix/:/tmp/.X11-unix/
       - /tmp/esp32-proxy.socket:/tmp/esp32-proxy.socket
       - /home/ggc_user/routines:/home/robomaker/routines
       - /home/ggc_user/aws_iot_params.yaml:/config/aws_iot_params.yaml
-      
+
+
   greengrass_bridge:
     image: ros-humble-greengrass-minipupper:latest
-    command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['dance_config']" iot_topics:="['cloud_dance_config']"
+    command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['cdance_config']" iot_topics:="['dance_config']"
     environment:
       - AWS_REGION
       - SVCUID
