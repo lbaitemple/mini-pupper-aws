@@ -21,10 +21,8 @@ LABEL component="com.example.ros2.mini_pupper_v2"
 LABEL build_step="DemoNodesROSPackage_Build"
 
 # Clone the demos_ros_cpp package from within the ROS Demos monorepo.
-RUN  mkdir -p /ws/src  && mkdir  /opt/routines
+RUN mkdir -p /ws/src
 ADD robot_ws/src /ws/src
-ADD robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines /opt/routines
-
 WORKDIR /ws
 
     
@@ -51,7 +49,7 @@ RUN --mount=type=cache,target=${LOCAL_WS_DIR}/build:/ws/build \
 
 # ==== ROS Runtime Image (with the two packages) ====
 FROM build-base AS runtime-image
-LABEL component="com.example.ros2.mini_pupper_v2"
+LABEL component="com.example.ros2.demo"
 
 # Clone the GitHub repository into the container
 RUN git clone https://github.com/mangdangroboticsclub/mini_pupper_2_bsp /tmp/mini_pupper_2_bsp
@@ -66,15 +64,15 @@ RUN pip install -r requirements.txt
 # Install your Python package
 RUN python setup.py install
 
-# setup the dance routines
-RUN mkdir -p /opt/routines
-ADD robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines /opt/routines
+
 COPY --from=ros-demos-package /opt/ros_demos /opt/ros_demos
 COPY --from=greengrass-bridge-package /opt/greengrass_bridge /opt/greengrass_bridge
 
 # Add the application source file to the entrypoint.
 WORKDIR /
-
+RUN mkdir -p /routines
+# Copy the contents of robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ to /routines
+COPY robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ /routines/
 COPY scripts/robot-entrypoint.sh  /robot-entrypoint.sh
 RUN chmod +x /robot-entrypoint.sh
 ENTRYPOINT ["/robot-entrypoint.sh"]
