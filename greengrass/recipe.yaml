@@ -39,12 +39,12 @@ Manifests:
             EOF
             chown ggc_user:ggc_group {artifacts:path}/.env
         Install: |
-           docker tag 717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest  ros-humble-greengrass-minipupper:latest
+           docker tag 717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper-v1:latest  ros-humble-greengrass-minipupper-v1:latest
         Startup: |
            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml up -d
         Shutdown: |
            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml down
     Artifacts:
-      - URI: "docker:717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest"
+      - URI: "docker:717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper-v1:latest"
       - URI: "s3://mangdang2023911/mini_pupper/artifacts/docker-compose_nobuild.yaml"
       - URI: "s3://mangdang2023911/mini_pupper/artifacts/routines/demo.py"          
