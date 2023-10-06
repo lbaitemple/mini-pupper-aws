@@ -27,7 +27,7 @@ choose
 * Clone Packages
 
 ```sh
-git clone -b ros2-dev https://github.com/lbaitemple/mini-pupper-aws
+git clone -b  ros2-mini-pupper-v1  https://github.com/lbaitemple/mini-pupper-aws
 
 ```
 
