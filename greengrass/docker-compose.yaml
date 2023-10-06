@@ -3,10 +3,10 @@ services:
   greengrass_minipupper_image:
     build: 
         context: ./
-    image: ros-humble-greengrass-minipupper:latest
+    image: ros-humble-greengrass-minipupper-v1:latest
     
   pupper-robot:
-    image: ros-humble-greengrass-minipupper:latest
+    image: ros-humble-greengrass-minipupper-v1:latest
     command: ros2 launch mini_pupper_dance ndance.launch.py  hardware_connected:=false
     environment:
       - DISPLAY
@@ -22,13 +22,12 @@ services:
       - /greengrass:/greengrass
       - /dev:/dev
       - /sys:/sys
-      - /tmp/esp32-proxy.socket:/tmp/esp32-proxy.socket
       - /home/ggc_user/routines:/home/robomaker/routines
       - /home/ggc_user/aws_iot_params.yaml:/config/aws_iot_params.yaml
 
 
   greengrass_bridge:
-    image: ros-humble-greengrass-minipupper:latest
+    image: ros-humble-greengrass-minipupper-v1:latest
     command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['cdance_config']" iot_topics:="['dance_config']"
     environment:
       - AWS_REGION
