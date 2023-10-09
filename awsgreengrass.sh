@@ -3,7 +3,7 @@
 #aws iot describe-endpoint
 export DEPLOYMENT_BUCKET=mangdang2023911
 
-export DOCKER=ros-humble-greengrass-minipupper
+export DOCKER=ros-humble-greengrass-minipupper-v2
 export DANCE_FILE=demo.py
 export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'` 
 export YOUR_PRIVATE_ECR_IMAGE=`aws ecr describe-repositories | grep repositoryUri | grep ${DOCKER}  | cut -d: -f 2 | sed 's/\"//g' | sed 's/\,//g' | tr -d ' '`
