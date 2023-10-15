@@ -219,7 +219,7 @@ ros2 launch mini_pupper_dance ndance.launch.py hardware_connected:=false
 
 ```sh
 # terminal 3
-source /opt/ros/melodic/setup.bash
+source /opt/ros/humble/setup.bash
 ros2 topic pub --once /dance_config std_msgs/String "data: 'demo'"
 
 ```
