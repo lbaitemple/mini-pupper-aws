@@ -22,6 +22,9 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-pat
 COPY scripts/robomaker-entrypoint.sh robomaker-entrypoint.sh
 RUN sh -c 'sudo chmod +x robomaker-entrypoint.sh && sudo chown robomaker:robomaker robomaker-entrypoint.sh'
 
+COPY scripts/dancemove.sh dancemove.sh
+RUN sh -c 'sudo chmod +x dancemove.shh && sudo chown robomaker:robomaker dancemove.sh'
+
 RUN sudo mkdir -p /config/certs/
 
 # xterm for interactive debug
