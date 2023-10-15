@@ -55,6 +55,13 @@ You can run
 docker image list
 ```
 
+```
+cd mini-pupper-aws
+docker build . -t mini-pupper-base:latest -f Dockerfile-Base
+docker build . -t mini-pupper-robot:latest -f Dockerfile-Robot
+docker build . -t mini-pupper-simulation:latest -f Dockerfile-Simulation
+```
+
 
 to see if three docker instances avaiable. Then, in terminal 1 you can
 ```
