@@ -7,6 +7,11 @@ FROM mini-pupper-base:latest
 RUN sudo apt-get install -y python3-pip apt-utils
 RUN pip install Inject==3.5.4
 
+WORKDIR /tmp
+RUN git clone https://github.com/mangdangroboticsclub/mini_pupper_2_bsp 
+WORKDIR /tmp/mini_pupper_2_bsp/mock_api
+RUN sudo python3 setup.py install
+
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
 ADD robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines /home/robomaker/mini-pupper-aws/routines
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
