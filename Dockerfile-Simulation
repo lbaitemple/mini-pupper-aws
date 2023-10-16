@@ -29,4 +29,5 @@ RUN sh -c 'sudo chmod +x move.sh && sudo chown robomaker:robomaker move.sh'
 RUN sudo apt install -y xterm
 
 #CMD roslaunch mini_pupper_simulation aws_stage.launch
+CMD ros2 launch mini_pupper_gazebo gazebo.launch.py rviz:=false 
 ENTRYPOINT [ "/home/robomaker/workspace/simulation_ws/simulation-entrypoint.sh" ]
