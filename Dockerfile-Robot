@@ -35,5 +35,5 @@ RUN sudo mkdir -p /config/certs/
 # xterm for interactive debug
 RUN sudo apt install -y xterm
 
-CMD ros2 launch mini_pupper_dance ndance.launch.py hardware_connected:=false
+CMD ros2 launch mini_pupper_dance ndance.launch.py joint_hardware_connected:=false
 ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robomaker-entrypoint.sh" ]
