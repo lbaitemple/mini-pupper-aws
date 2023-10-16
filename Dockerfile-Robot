@@ -29,6 +29,9 @@ RUN sh -c 'sudo chmod +x robomaker-entrypoint.sh && sudo chown robomaker:robomak
 
 COPY scripts/dancemove.sh dancemove.sh
 RUN sh -c 'sudo chmod +x dancemove.sh && sudo chown robomaker:robomaker dancemove.sh'
+COPY scripts/flip.sh flip.sh
+RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
+
 
 RUN sudo mkdir -p /config/certs/
 
