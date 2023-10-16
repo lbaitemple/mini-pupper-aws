@@ -31,7 +31,7 @@ git clone -b marshall https://github.com/lbaitemple/mini-pupper-aws
 cd ~/environment/mini-pupper-aws/simulation_ws/src
 vcs import < .minipupper.repos --recursive && cd ..
 pip install Inject==3.5.4 setuptools==58.2.0
-
+sudo apt-get install  ros-humble-gazebo-ros2-control -y
 ```
 
 If you need to complie on arm processor, you will need qemu package
