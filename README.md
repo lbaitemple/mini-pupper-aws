@@ -28,6 +28,9 @@ choose
 
 ```sh
 git clone -b marshall https://github.com/lbaitemple/mini-pupper-aws
+cd ~/environment/mini-pupper-aws/simulation_ws/src
+vcs import < .minipupper.repos --recursive && cd ..
+pip install Inject==3.5.4 setuptools==58.2.0
 
 ```
 
