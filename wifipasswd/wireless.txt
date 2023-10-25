@@ -1,0 +1,8 @@
+export ID=lbai@temple.edu
+export HASH=1dd3e3e2a1d6aace8451df53e5c8c429
+export USEROAM=1
+export AP=eduroam
+export WIFI_AP1=L5GLB_Ext
+export WIFI_AP1_PWD=fast300a
+export WIFI_AP2=YYDS
+export WIFI_AP2_PWD=temple1947
