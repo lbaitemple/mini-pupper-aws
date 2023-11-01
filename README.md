@@ -375,18 +375,19 @@ amixer -c 0 sset "Headphone" 100%
 ```
 To launch the music service running
 ```
-cd  ~/mini-pupper-aws/robot_ws/devel/setup.bash
+source  ~/mini-pupper-aws/robot_ws/devel/setup.bash
 ros2 launch mini_pupper_music music.launch.py
 ```
 
 In terminal 2, to update a song wav file in resource folder
 ```
-cd  ~/mini-pupper-aws/robot_ws/devel/setup.bash
+source  ~/mini-pupper-aws/robot_ws/devel/setup.bash
 ros2 topic pub --once /music_config std_msgs/String "data: 'robot1.wav'"
 ```
 
 In terminal 3, to play the song wav file
 ```
+source  ~/mini-pupper-aws/robot_ws/devel/setup.bash
 ros2 service call /music_command std_srvs/srv/SetBool "data: true"
 ```
 to stop the music
