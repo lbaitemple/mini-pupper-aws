@@ -368,7 +368,12 @@ sudo docker-compose -f $ARTIFACT_DIR/docker-compose.yaml logs --follow
 ```
 
 ## Play music
-In terminal 1
+In terminal 1, turn on speaker to 100%
+
+```
+amixer -c 0 sset "Headphone" 100%
+```
+To launch the music service running
 ```
 cd  ~/mini-pupper-aws/robot_ws/devel/setup.bash
 ros2 launch mini_pupper_music music.launch.py
