@@ -366,6 +366,29 @@ sudo xhost +
 export ARTIFACT_DIR=/greengrass/v2/packages/artifacts/com.example.ros.pupper.dance/1.0.0/
 sudo docker-compose -f $ARTIFACT_DIR/docker-compose.yaml logs --follow
 ```
+
+## Play music
+In terminal 1
+```
+cd  ~/mini-pupper-aws/robot_ws/devel/setup.bash
+ros2 launch mini_pupper_music music.launch.py
+```
+
+In terminal 2, to update a song wav file in resource folder
+```
+cd  ~/mini-pupper-aws/robot_ws/devel/setup.bash
+ros2 topic pub --once /music_config std_msgs/String "data: 'robot1.wav'"
+```
+
+In terminal 3, to play the song wav file
+```
+ros2 service call /music_command std_srvs/srv/SetBool "data: true"
+```
+to stop the music
+```
+ros2 service call /music_command std_srvs/srv/SetBool "data: false"
+```
+
 # Attribution
 
 ["Simple Concert Stage"](https://sketchfab.com/3d-models/simple-concert-stage-d5c7733d06d24947bf60b3a0fe203f69) by [mertbbicak](https://sketchfab.com/mertbbicak) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). AWS banner has been added to the model.
