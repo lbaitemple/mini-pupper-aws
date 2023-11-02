@@ -7,6 +7,14 @@ The README is out of date.
 docker rmi -f $(docker images -aq)
 ```
 
+## Music funciton
+```
+sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav -y
+pip install playsound==1.2.2
+
+
+```
+
 ## install ROS2 if not on your minipupper
 ```
 wget https://raw.githubusercontent.com/Tiryoh/ros2_setup_scripts_ubuntu/main/ros2-humble-desktop-main.sh
