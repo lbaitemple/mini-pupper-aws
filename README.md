@@ -7,6 +7,12 @@ The README is out of date.
 docker rmi -f $(docker images -aq)
 ```
 
+## install ROS2 if not on your minipupper
+```
+wget https://raw.githubusercontent.com/Tiryoh/ros2_setup_scripts_ubuntu/main/ros2-humble-desktop-main.sh
+bash ./ros2-humble-desktop-main.sh
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+```
 ## Activity 1: Simulate the Dance Robot
 
 ### Step 1: Setup the RoboMaker IDE
