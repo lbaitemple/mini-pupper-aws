@@ -55,7 +55,7 @@ def generate_launch_description():
             ]
         )    
 
-        music_server_node = Node(
+    music_server_node = Node(
             package="mini_pupper_music",
             namespace="",
             executable="service",
