@@ -27,6 +27,7 @@ setup(
             'service = mini_pupper_dance.dance_server:main',
             'client = mini_pupper_dance.dance_client:main',
             'dance = mini_pupper_dance.dance:main',
+            'refine_dance = mini_pupper_dance.refine_dance:main',
             'pose_controller = mini_pupper_dance.pose_controller:main'
         ],
     },
