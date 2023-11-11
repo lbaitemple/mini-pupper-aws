@@ -16,25 +16,25 @@
 # stay: the robot will keep the last command
 dance_commands = [
 'move_forward:0.5:0.5',
-'stop:0.0.:0.5',
+'stop:0:0.5',
 'look_down:0.3:0.5',
 'look_up:-0.3:0.5',
 
 'move_backward:-0.5:0.5',
-'look_middle:0:0.5'
-'stop:0.0.:0.5',
+'look_middle:0.0:0.5',
+'stop:0.0:0.5',
 'look_left:0.3:0.5',
 'look_right:-0.3:0.5',
 
 'move_left:0.5:0.5',
-'stop:0.0.:0.5',
-'turn_left:1:0.5'
+'stop:0.0:0.5',
+'turn_left:1.0:0.5',
 'look_up:-0.3:0.5',
-'turn_right:-1:0.5'
+'turn_right:-1.0:0.5',
 'look_left:0.3:0.5',
 
 'move_right:-0.5:0.5',
-'stop:0.0.:0.5',
+'stop:0.0:0.5',
 'look_down:0.3:0.5',
 'look_right:-0.3:0.5',
 
@@ -46,5 +46,5 @@ dance_commands = [
 'look_down:0.3:0.5',
 'look_left:0.3:0.5',
 'look_up:-0.3:0.5',
-'look_right:-0.3:0.5'
+'look_right:-0.3:0.5',
 ]
