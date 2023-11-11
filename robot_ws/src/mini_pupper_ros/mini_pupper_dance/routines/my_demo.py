@@ -2,6 +2,7 @@
 
 # the duration of every command
 #interval_time = 0.5 # seconds
+music_file ='robot1.wav'
 
 # there are 10 commands you can choose:
 # move_forward: the robot will move forward
