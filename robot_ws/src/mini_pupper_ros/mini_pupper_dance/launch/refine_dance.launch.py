@@ -55,15 +55,15 @@ def generate_launch_description():
             ]
         )    
 
-    music_server_node = Node(
-            package="mini_pupper_music",
-            namespace="",
-            executable="service",
-            name="music_server",
-            parameters=[
-                {"music_config_path": dance_config_path}
-            ]
-        )
+#    music_server_node = Node(
+#            package="mini_pupper_music",
+#            namespace="",
+#            executable="service",
+#            name="music_server",
+#            parameters=[
+#                {"music_config_path": dance_config_path}
+#           ]
+#        )
         
     launch_bringup=IncludeLaunchDescription(
             PythonLaunchDescriptionSource(bringup_path)
@@ -73,6 +73,6 @@ def generate_launch_description():
     ld.add_action(launch_bringup)
     ld.add_action(dance_node)    
     ld.add_action(pose_controller_node)   
-    ld.add_action(music_server_node)
+#    ld.add_action(music_server_node)
     
     return ld
