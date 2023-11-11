@@ -35,8 +35,8 @@ class DanceDemo(Node):
         self.dance_config = __import__(self.dance_config_name)
         self.commands = self.dance_config.dance_commands
         self.get_logger().info('executing command: .... ' )
-        self.commands.insert(0, 'stop')
-        self.commands.append('stop')
+        self.commands.insert(0, 'stop:0.0:0.5')
+        self.commands.append('stop:0.0:0.5')
         self.ready_to_dance = 1
         self.dance()
 
@@ -53,6 +53,7 @@ class DanceDemo(Node):
             self.yaw = 0
             
             # parse the string for the readin commands
+            self.get_logger().info(readcommand)
             result = parse_movement_string(readcommand)
             # get the value from each key
             command = result['action']
