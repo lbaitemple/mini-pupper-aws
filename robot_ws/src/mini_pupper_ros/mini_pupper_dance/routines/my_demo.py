@@ -2,7 +2,6 @@
 
 # the duration of every command
 #interval_time = 0.5 # seconds
-music_file ='robot1.wav'
 
 # there are 10 commands you can choose:
 # move_forward: the robot will move forward
@@ -16,6 +15,8 @@ music_file ='robot1.wav'
 # stop: the robot will stop the last command and return to the default standing posture
 # stay: the robot will keep the last command
 dance_commands = [
+'volume:on:100',    
+'music:on:robot1.wav',
 'move_forward:0.5:0.5',
 'stop:0:0.5',
 'look_down:0.3:0.5',
@@ -26,7 +27,7 @@ dance_commands = [
 'stop:0.0:0.5',
 'look_left:0.3:0.5',
 'look_right:-0.3:0.5',
-
+'music:off:',
 'move_left:0.5:0.5',
 'stop:0.0:0.5',
 'turn_left:1.0:0.5',
@@ -44,8 +45,28 @@ dance_commands = [
 'look_down:0.3:0.5',
 'look_right:-0.3:0.5',
 
+'music:on:how.wav',    
 'look_down:0.3:0.5',
 'look_left:0.3:0.5',
 'look_up:-0.3:0.5',
 'look_right:-0.3:0.5',
+'move_left:0.5:0.5',
+'stop:0.0:0.5',
+'turn_left:1.0:0.5',
+'look_up:-0.3:0.5',
+'turn_right:-1.0:0.5',
+'look_left:0.3:0.5',
+
+'move_right:-0.5:0.5',
+'stop:0.0:0.5',
+'look_down:0.3:0.5',
+'look_right:-0.3:0.5',
+
+'look_up:-0.3:0.5',
+'look_left:0.3:0.5',
+'look_down:0.3:0.5',
+'look_right:-0.3:0.5',
+'music:off:',
+'look_up:-0.3:0.5',
+'look_left:0.3:0.5',    
 ]
