@@ -3,12 +3,32 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
+from std_srvs.srv import SetBool
 from geometry_msgs.msg import Pose
 from std_msgs.msg import String
 from .math_operations import *
-import math, sys
+import math, sys, os
 import time
+import asyncio
 from .util import parse_movement_string
+
+class MiniPupperMusicClientAsync(Node):
+
+    def __init__(self):
+        super().__init__('mini_pupper_music_client_async')
+        self.cli = self.create_client(SetBool, '/music_command')
+        while not self.cli.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req = SetBool.Request()
+
+
+    def send_request(self, music_command):
+        self.req.data = music_command
+        self.get_logger().info('music service send {}'.format(music_command))
+        self.future = self.cli.call_async(self.req)
+        rclpy.spin_until_future_complete(self, self.future)
+        return self.future.result()
+        
 
 class DanceDemo(Node):
     def __init__(self):
@@ -26,10 +46,15 @@ class DanceDemo(Node):
         self.commands = []
         self.ready_to_dance = 0
         self.dance_config_sub = self.create_subscription(String, '/dance_config', self.dance_config_callback, 10)
+        
         self.velocity_publisher = self.create_publisher(Twist, 'cmd_vel', 100)
+        self.music_publisher = self.create_publisher(String, '/music_config', 100)
+        self.music_client= MiniPupperMusicClientAsync()        
+
         #self.pose_publisher = self.create_publisher(Pose, 'target_body_pose', 100)
         self.pose_publisher = self.create_publisher(Pose, 'reference_body_pose', 100)
 
+        
     def dance_config_callback(self, msg):
         self.dance_config_name = msg.data
         self.dance_config = __import__(self.dance_config_name)
@@ -151,6 +176,25 @@ class DanceDemo(Node):
                     self.pose_publisher.publish(pose_cmd)
                     self.get_logger().info('Publishing: "%s"' % command)
                     time.sleep(self.dance_config.interval_time)
+                    
+                elif (command == 'music' ):
+                        # publish the music topic, call service to turn on/off music based on interval value
+                    if (value):
+                        msg = String()
+                        msg.data = value
+                        self.music_publisher.publish(msg)
+
+                    response = self.music_client.send_request(interval)
+                    if(response.success == True):
+                        self.music_client.get_logger().info('Command Executed!')
+
+            
+                   # await asyncio.get_event_loop().run_until_complete(self.music_callback(interval))
+                   # await asyncio.run(self.music_callback(interval))
+                    #self.music_client.send_request(interval)
+                        # call service to turn off music
+                elif (command == 'volume' ):
+                    os.system("amixer -c 0 sset 'Headphone' {}%".format(value))                        
  
                 else:
                     self.get_logger().warn('wrong command: ' + str(command))
@@ -159,6 +203,7 @@ class DanceDemo(Node):
                 velocity_cmd = Twist()
                 self.velocity_publisher.publish(velocity_cmd)
                 time.sleep(self.dance_config.interval_time)
+
 
 def main(args=None):
     rclpy.init(args=args)
