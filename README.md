@@ -21,6 +21,14 @@ wget https://raw.githubusercontent.com/Tiryoh/ros2_setup_scripts_ubuntu/main/ros
 bash ./ros2-humble-desktop-main.sh
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 ```
+
+## install simple audio
+```
+sudo apt-get install libasound2-dev -y
+pip install simpleaudio
+pip intall pydub
+
+```
 ## Activity 1: Simulate the Dance Robot
 
 ### Step 1: Setup the RoboMaker IDE
