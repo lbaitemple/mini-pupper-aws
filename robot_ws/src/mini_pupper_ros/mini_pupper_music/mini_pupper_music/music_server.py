@@ -1,88 +1,112 @@
 #!/usr/bin/env python3
+#
+# Copyright 2023 MangDang
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# @Author  : Cullen SUN
 
 import rclpy
 from rclpy.node import Node
-from std_srvs.srv import SetBool
-from std_msgs.msg import String
-import sounddevice as sd
-import soundfile as sf
+from mini_pupper_interfaces.srv import MusicCommand
 import threading
+from pydub import AudioSegment
+from pydub.playback import play
+from pydub.playback import _play_with_simpleaudio
+
 import os
 from ament_index_python.packages import get_package_share_directory
 
-class SoundPlayerNode(Node):
+
+class MusicServiceNode(Node):
     def __init__(self):
         super().__init__('mini_pupper_music_service')
-        self.sound_file =''
-        self.dance_config_sub = self.create_subscription(String, '/music_config', self.music_config_callback, 10)
+        self.playback = None
         self.service = self.create_service(
-            SetBool,
+            MusicCommand,
             'music_command',
-            self.play_sound_callback
+            self.play_music_callback
         )
-        self.is_playing = False
-        self.playback_thread = None
-        self.lock = threading.Lock()
+        self.song_pool = {'robot1.mp3', 'robot1.wav', 'how.wav', 'how.mp3'}
+        self.playing_lock = threading.Lock()
 
-    def music_config_callback(self, msg):
-        self.sound_file = msg.data
-
-    def play_sound_callback(self, request, response):
-        if request.data:
-            with self.lock:
-                if not self.is_playing:
-                    self.play_sound()
+    def play_music_callback(self, request, response):
+        self.get_logger().info(f'play command at {request.command}')
+        if request.command == 'play':
+            if request.file_name in self.song_pool:
+                if not self.playing_lock.locked():
+                    self.play_sound_file(request.file_name,
+                                         request.start_second,
+                                         request.duration)
                     response.success = True
                     response.message = 'Sound playback started.'
                 else:
                     response.success = False
-                    response.message = 'Sound is already playing.'
+                    response.message = 'Another sound is already playing.'
+            else:
+                response.success = False
+                response.message = f'File {request.file_name} is not found.'
+        elif request.command == 'stop':
+            if self.playback:
+                self.playback.stop() 
+                response.success = True
+                response.message = f'Command {request.command} the music.'            
         else:
-            with self.lock:
-                if self.is_playing:
-                    self.stop_sound()
-                    response.success = True
-                    response.message = 'Sound playback stopped.'
-                else:
-                    response.success = False
-                    response.message = 'No sound is currently playing.'
+            response.success = False
+            response.message = f'Command {request.command} is not supported.'
+
         return response
 
-    def play_sound(self):
-        self.is_playing = True
-        self.playback_thread = threading.Thread(target=self.play_sound_thread)
-        self.playback_thread.start()
+    def play_sound_file(self, file_name, start_second, duration):
+        # Create a new thread for playing the sound
+        thread = threading.Thread(
+            target=self.play_sound_in_background,
+            args=(file_name, start_second, duration)
+        )
+        # Set the thread as a daemon (will exit when the main program ends)
+        thread.daemon = True
+        thread.start()
 
-    def play_sound_thread(self):
-        # Load and play the sound file continuously
-        package_name = 'mini_pupper_music'
-        if (self.sound_file==''):
-            file_name = 'resource/robot1.wav'
-        else:
-            file_name = 'resource/'+ self.sound_file
+    def play_sound_in_background(self, file_name, start_second, duration):
+        with self.playing_lock:
+            package_name = 'mini_pupper_music'
+            package_path = get_package_share_directory(package_name)
+            sound_path = os.path.join(package_path, 'resource', file_name)
+            file_extension = file_name.split(".")[-1]
+            self.get_logger().info(f'Play music at {sound_path}')
+
+            # ROS2 might automatically make the duration 0.0 if it's not passed
+            # Make it None to avoid program mistakes
+            if duration == 0.0:
+                duration = None
+
+            audio = AudioSegment.from_file(
+                file=sound_path,
+                format=file_extension,
+                start_second=start_second,
+                duration=duration
+            )
+
+#            play(audio)
+            self.playback = _play_with_simpleaudio(audio)
             
-        package_path = get_package_share_directory(package_name)
-        sound_file = os.path.join(package_path, file_name)
-    
-        data, fs = sf.read(sound_file, dtype='float32')
-        while self.is_playing:
-            sd.play(data, fs)
-            sd.wait()
-
-    def stop_sound(self):
-        self.is_playing = False
-        if self.playback_thread is not None:
-            self.playback_thread.join(timeout=0)
-            if self.playback_thread.is_alive():
-                # If the thread is still running, stop the sound playback
-                sd.stop()
 
 def main(args=None):
     rclpy.init(args=args)
-    sound_player_node = SoundPlayerNode()
-    rclpy.spin(sound_player_node)
-    sound_player_node.destroy_node()
+    music_service_node = MusicServiceNode()
+    rclpy.spin(music_service_node)
+    music_service_node.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
