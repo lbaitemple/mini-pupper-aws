@@ -15,9 +15,8 @@
 # stop: the robot will stop the last command and return to the default standing posture
 # stay: the robot will keep the last command
 dance_commands = [
-'volume:on:100',
-#music file - how.wav - start at 6.2 sec
-'music:how.wav:6.2',
+'volume:on:100',    
+'music:how.wav:11.0',
 'move_forward:0.5:0.5',
 'stop:0:0.5',
 'look_down:0.3:1.5',
