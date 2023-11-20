@@ -25,7 +25,7 @@ from pydub.playback import _play_with_simpleaudio
 
 import os
 from ament_index_python.packages import get_package_share_directory
-
+from os import listdir
 
 class MusicServiceNode(Node):
     def __init__(self):
@@ -36,7 +36,11 @@ class MusicServiceNode(Node):
             'music_command',
             self.play_music_callback
         )
-        self.song_pool = {'robot1.mp3', 'robot1.wav', 'how.wav', 'how.mp3'}
+        package_name = 'mini_pupper_music'
+        package_path = get_package_share_directory(package_name)
+        sound_dir = os.path.join(package_path, 'resource')
+        files = [f for f in os.listdir(sound_dir) if os.path.isfile(os.path.join(sound_dir, f))]
+        self.song_pool =  set(files) #{'robot1.mp3', 'robot1.wav', 'how.wav', 'how.mp3'}
         self.playing_lock = threading.Lock()
 
     def play_music_callback(self, request, response):
