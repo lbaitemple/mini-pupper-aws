@@ -38,9 +38,12 @@ class MusicServiceNode(Node):
         )
 
 
-        music_config_path=os.environ["MUSIC_CONFIG"]
-        isExist = os.path.exists(music_config_path)
-
+        if 'MUSIC_CONFIG' in os.environ:
+            music_config_path=os.environ["MUSIC_CONFIG"]
+            isExist = os.path.exists(music_config_path)
+        else:
+            isExist = False        
+    
         if (isExist):
             self.music_config_path = music_config_path
         else:
