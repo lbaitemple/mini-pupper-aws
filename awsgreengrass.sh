@@ -3,7 +3,7 @@
 #aws iot describe-endpoint
 export DEPLOYMENT_BUCKET=mangdanglb102123
 
-export DOCKER=ros-humble-greengrass-minipupper
+export DOCKER=ros-humble-greengrass-minipupper-v2:latest
 export DANCE_FILE=my_dance.py
 export MUSIC_FILE=how.mp3
 export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'` 
