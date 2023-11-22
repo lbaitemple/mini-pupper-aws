@@ -17,6 +17,11 @@ def generate_launch_description():
         'routines'
     )
 
+    music_config_path = os.path.join(
+        get_package_share_directory('mini_pupper_music'),
+        'playlists'
+    )
+
     bringup_path = os.path.join(
         get_package_share_directory('mini_pupper_bringup'),
         'launch/bringup.launch.py'
@@ -61,7 +66,7 @@ def generate_launch_description():
             executable="service",
             name="music_server",
             parameters=[
-                {"music_config_path": dance_config_path}
+                {"music_config_path": music_config_path}
            ]
         )
         

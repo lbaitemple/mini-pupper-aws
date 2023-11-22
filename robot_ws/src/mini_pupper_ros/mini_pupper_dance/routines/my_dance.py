@@ -16,7 +16,7 @@
 # stay: the robot will keep the last command
 dance_commands = [
 'volume:on:100',    
-'music:how.wav:11.0',
+'music:how.mp3:11.0',
 'move_forward:0.5:0.5',
 'stop:0:0.5',
 'look_down:0.3:1.5',
