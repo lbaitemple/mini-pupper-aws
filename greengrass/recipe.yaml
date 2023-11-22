@@ -1,7 +1,7 @@
 ---
 RecipeFormatVersion: '2020-01-25'
 ComponentName: com.example.ros2.mini_pupper_v2
-ComponentVersion: '1.0.7'
+ComponentVersion: '1.0.0'
 ComponentDescription: 'A basic component that runs a mini_pupper_v2 application'
 ComponentPublisher: Amazon
 ComponentDependencies:
@@ -30,8 +30,9 @@ Manifests:
           RequiresPrivilege: True
           Script: |
             echo "Bootstrapping the dance application! as root This runs only once during the deployment."
-            cp {artifacts:path}/routines/ /home/ggc_user/routines/ 
-            cp {artifacts:path}/routines/docker-compose_nobuild.yaml /home/ggc_user/
+            cp {artifacts:path}/routines/ /home/ubuntu/minipupper/routines/ 
+            cp {artifacts:path}/playlists/ /home/ubuntu/minipupper/playlists/           
+            cp {artifacts:path}/docker-compose_nobuild.yaml /home/ubuntu/minipupper/
             cat << EOF > {artifacts:path}/.env
             AUTO_START={configuration:/auto_start}
             SVCUID=$SVCUID
@@ -39,12 +40,13 @@ Manifests:
             EOF
             chown ggc_user:ggc_group {artifacts:path}/.env
         Install: |
-           docker tag 717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest  ros-humble-greengrass-minipupper:latest
+           docker tag 528647543010.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper-v2:latest  ros-humble-greengrass-minipupper:latest
         Startup: |
            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml up -d
         Shutdown: |
            docker-compose -f {artifacts:path}/docker-compose_nobuild.yaml down
     Artifacts:
-      - URI: "docker:717172322485.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper:latest"
-      - URI: "s3://mangdang2023911/mini_pupper/artifacts/docker-compose_nobuild.yaml"
-      - URI: "s3://mangdang2023911/mini_pupper/artifacts/routines/demo.py"          
+      - URI: "docker:528647543010.dkr.ecr.us-east-1.amazonaws.com/ros-humble-greengrass-minipupper-v2:latest"
+      - URI: "s3://mangdanglb102123/mini_pupper/artifacts/docker-compose_nobuild.yaml"
+      - URI: "s3://mangdanglb102123/mini_pupper/artifacts/playlists/how.mp3"
+      - URI: "s3://mangdanglb102123/mini_pupper/artifacts/routines/my_dance.py"          

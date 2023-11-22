@@ -30,8 +30,9 @@ Manifests:
           RequiresPrivilege: True
           Script: |
             echo "Bootstrapping the dance application! as root This runs only once during the deployment."
-            cp {artifacts:path}/routines/ /home/ggc_user/routines/ 
-            cp {artifacts:path}/routines/docker-compose_nobuild.yaml /home/ggc_user/
+            cp {artifacts:path}/routines/ /home/ubuntu/minipupper/routines/ 
+            cp {artifacts:path}/playlists/ /home/ubuntu/minipupper/playlists/           
+            cp {artifacts:path}/docker-compose_nobuild.yaml /home/ubuntu/minipupper/
             cat << EOF > {artifacts:path}/.env
             AUTO_START={configuration:/auto_start}
             SVCUID=$SVCUID
@@ -47,4 +48,5 @@ Manifests:
     Artifacts:
       - URI: "docker:YOUR_PRIVATE_ECR_IMAGE"
       - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/docker-compose_nobuild.yaml"
+      - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/playlists/MUSIC_PLACEHOLDER"
       - URI: "s3://S3_BUCKET_PLACEHOLDER/artifacts/routines/DANCE_ROUTINE_PLACEHOLDER"          
