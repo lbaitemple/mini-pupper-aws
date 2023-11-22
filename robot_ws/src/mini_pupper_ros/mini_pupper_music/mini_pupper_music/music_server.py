@@ -36,9 +36,22 @@ class MusicServiceNode(Node):
             'music_command',
             self.play_music_callback
         )
-        package_name = 'mini_pupper_music'
-        package_path = get_package_share_directory(package_name)
-        sound_dir = os.path.join(package_path, 'resource')
+
+
+        music_config_path=os.environ["MUSIC_CONFIG"]
+        isExist = os.path.exists(music_config_path)
+
+        if (isExist):
+            self.music_config_path = music_config_path
+        else:
+            self.declare_parameter('music_config_path', rclpy.Parameter.Type.STRING) 
+            self.music_config_path = self.get_parameter('music_config_path').get_parameter_value().string_value
+            
+        self.get_logger().info(self.music_config_path)
+        self.get_logger().info(str(self.music_config_path))
+
+        
+        sound_dir = self.music_config_path
         files = [f for f in os.listdir(sound_dir) if os.path.isfile(os.path.join(sound_dir, f))]
         self.song_pool =  set(files) #{'robot1.mp3', 'robot1.wav', 'how.wav', 'how.mp3'}
         self.playing_lock = threading.Lock()
@@ -83,8 +96,9 @@ class MusicServiceNode(Node):
     def play_sound_in_background(self, file_name, start_second, duration):
         with self.playing_lock:
             package_name = 'mini_pupper_music'
-            package_path = get_package_share_directory(package_name)
-            sound_path = os.path.join(package_path, 'resource', file_name)
+#            package_path = get_package_share_directory(package_name)
+            sound_dir = self.music_config_path
+            sound_path = os.path.join(sound_dir, file_name)
             file_extension = file_name.split(".")[-1]
             self.get_logger().info(f'Play music at {sound_path}')
 

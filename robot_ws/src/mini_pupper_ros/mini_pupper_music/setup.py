@@ -14,6 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/resource', glob('resource/*')),
         (os.path.join('share', package_name), glob('launch/*.launch.py')),
+        (os.path.join('share', package_name, 'playlists'), glob('playlists/*.*'))
     ],
     install_requires=['setuptools', 'simpleaudio', 'pydub'],
     zip_safe=True,
