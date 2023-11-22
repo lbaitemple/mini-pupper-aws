@@ -13,8 +13,8 @@ LABEL build_step="ROSDemoNodes_Build"
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
 RUN apt-get update && apt-get install python3-pip -y
 RUN apt-get update && apt-get install ros-$ROS_DISTRO-example-interfaces \
-ros-$ROS_DISTRO-xacro  ros-$ROS_DISTRO-robot-localization -y
-RUN python3 -m pip install awsiotsdk
+ros-$ROS_DISTRO-xacro  ros-$ROS_DISTRO-robot-localization ros-$ROS_DISTRO-nav2-bringup libasound2-dev gstreamer1.0 alsa-utils ffmpeg -y
+RUN python3 -m pip install awsiotsdk pydub simpleaudio
 
 # ==== Package 1: ROS Demos Talker/Listener ==== 
 FROM build-base AS ros-demos-package
@@ -71,9 +71,14 @@ COPY --from=greengrass-bridge-package /opt/greengrass_bridge /opt/greengrass_bri
 
 # Add the application source file to the entrypoint.
 WORKDIR /
-RUN mkdir -p /routines
+RUN mkdir -p /routines && mkdir -p /playlists
 # Copy the contents of robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ to /routines
-COPY robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ /routines/
+#COPY robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines/ /routines/
+
+#RUN mkdir -p /playlists
+# Copy the contents of robot_ws/src/mini_pupper_ros/mini_pupper_music/playlists/ to /playlists
+#COPY robot_ws/src/mini_pupper_ros/mini_pupper_music/playlists/ /playlists/
+
 COPY scripts/robot-entrypoint.sh  /robot-entrypoint.sh
 RUN chmod +x /robot-entrypoint.sh
 ENTRYPOINT ["/robot-entrypoint.sh"]
