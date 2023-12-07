@@ -40,3 +40,5 @@ services:
       - AWS_CONTAINER_CREDENTIALS_FULL_URI
     volumes: 
       - "/greengrass/v2/ipc.socket:/greengrass/v2/ipc.socket"
+      - /home/ubuntu/minipupper/routines:/routines
+      - /home/ubuntu/minipupper/playlists:/playlists
