@@ -30,7 +30,12 @@ choose
 git clone https://github.com/lbaitemple/mini-pupper-aws
 
 ```
+## install support for building arm docker on x86
+```
+sudo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
+```
 Copy the following docker command for each line
 ```
 cd mini-pupper-aws
