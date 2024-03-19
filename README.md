@@ -49,7 +49,7 @@ choose
 * Clone Packages
 
 ```sh
-git clone -b improved https://github.com/lbaitemple/mini-pupper-aws
+git clone -b ieee https://github.com/lbaitemple/mini-pupper-aws
 
 ```
 
