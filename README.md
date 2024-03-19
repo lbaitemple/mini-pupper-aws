@@ -103,6 +103,13 @@ You should be able to the mini pupeert in the gazebo window
 ```
 aws ecr create-repository --repository-name ros-humble-greengrass-minipupper | grep repositoryUri
 ```
+### Robomaker docker image
+```
+cd mini-pupper-aws
+docker build . -t mini-pupper-base:latest -f Dockerfile-Base
+docker build . -t mini-pupper-robot:latest -f Dockerfile-Robot
+docker build . -t mini-pupper-simulation:latest -f Dockerfile-Simulation
+```
 
 ###  Step 2: Upload the containers to Amazon ECR
 
