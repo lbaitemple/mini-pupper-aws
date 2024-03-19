@@ -106,6 +106,9 @@ aws ecr create-repository --repository-name ros-humble-greengrass-minipupper | g
 ### Robomaker docker image
 ```
 cd mini-pupper-aws
+cd simulation_ws/src
+vcs import < .minipupper.repos --recursive
+cd ../../
 docker build . -t mini-pupper-base:latest -f Dockerfile-Base
 docker build . -t mini-pupper-robot:latest -f Dockerfile-Robot
 docker build . -t mini-pupper-simulation:latest -f Dockerfile-Simulation
