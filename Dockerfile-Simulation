@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT-0
 
 # Source is previously built image
-FROM mini-pupper-base:latest
+FROM mini-pupper-base:2.0
 
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
