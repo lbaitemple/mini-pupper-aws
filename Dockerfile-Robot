@@ -5,7 +5,16 @@
 FROM mini-pupper-base:latest
 
 RUN sudo apt-get install -y python3-pip apt-utils
-RUN pip install Inject==3.5.4
+RUN pip install Inject==3.5.4 awsiotsdk pydub
+#RUN pip install   simpleaudio
+
+RUN git clone https://github.com/mangdangroboticsclub/mini_pupper_2_bsp /tmp/mini_pupper_2_bsp
+
+# Set the working directory to the Python package directory
+WORKDIR /tmp/mini_pupper_2_bsp/Python_Module
+# Install Python dependencies from requirements.txt if available
+RUN pip install -r requirements.txt
+
 
 ADD robot_ws/src /home/robomaker/workspace/robot_ws/src
 ADD robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines /home/robomaker/mini-pupper-aws/routines
@@ -27,5 +36,5 @@ RUN sudo mkdir -p /config/certs/
 # xterm for interactive debug
 RUN sudo apt install -y xterm
 
-CMD roslaunch mini_pupper_dance dance.launch hardware_connected:=false
+CMD ros2 launch mini_pupper_dance enhanced_dance.launch.py  hardware_connected:=false
 ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robot-entrypoint.sh" ]
