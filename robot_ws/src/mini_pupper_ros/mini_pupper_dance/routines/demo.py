@@ -15,6 +15,7 @@ interval_time = 0.6 # seconds
 # stop: the robot will stop the last command and return to the default standing posture
 # stay: the robot will keep the last command
 dance_commands = [
+'volume:on:90', 
 'music:robot1.wav:0.0',
 'move_forward:0.3:0.5',
 'stop:0.0:0.5',
