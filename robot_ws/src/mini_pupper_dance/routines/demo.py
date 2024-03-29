@@ -15,33 +15,35 @@ interval_time = 0.6 # seconds
 # stop: the robot will stop the last command and return to the default standing posture
 # stay: the robot will keep the last command
 dance_commands = [
-'move_forward',
-'stop',
-'look_down',
-'look_up',
+'music:robot0.mp3:0.0',
+'move_forward:0.3:0.5',
+'stop:0.0:0.5',
+'look_down:0.3:0.5', 
+'look_up:-0.3:0.5',
 
-'move_backward',
-'stop',
-'look_left',
-'look_right',
+'move_backward:-0.3:0.5',
+'stop:0.0:0.5',
+'look_left:0.3:0.5',
+'look_right:-0.3:0.5',
 
-'move_left',
-'stop',
-'look_up',
-'look_left',
+'move_left:0.3:0.5',
+'stop:0.0:0.5',
+'look_up-0.3:0.5',
+'look_left:0.3:0.5',
 
-'move_right',
-'stop',
-'look_down',
-'look_right',
+'move_right:-0.3:0.5',
+'stop:0.0:0.5',
+'look_down:0.3:0.5', 
+'look_right:-0.3:0.5',
 
-'look_up',
-'look_left',
-'look_down',
-'look_right',
+'look_up-0.3:0.5',
+'look_left:0.3:0.5',
+'look_down:0.3:0.5', 
+'look_right:-0.3:0.5',
 
-'look_down',
-'look_left',
-'look_up',
-'look_right'
+'look_down:0.3:0.5', 
+'look_left0:.3:0.5',
+'look_up-0.3:0.5',
+'look_right:-0.3:0.5',
+'music:off:'
 ]
