@@ -139,8 +139,11 @@ Just select ECR repository to load image to each application accordingly
 After that, we can create a simulation job with these two applications. You will need to setup to Networking.
 
 For Robot Application, choose the previously created robot application mini-pupper-robot
-For Launch Command, specify the launch command as a comma-separated list of arguments. In this workshop, enter roslaunch, mini_pupper_dance, dance.launch, hardware_connected:=false
+For Launch Command, specify the launch command as a comma-separated list of arguments. In this workshop, enter 
+```
+ros2, launch, mini_pupper_dance, enhanced_dance.launch.py,  joint_hardware_connected:=false, joint_music_connected:=false
 
+```
 Choose Add item and add the following to the Environment variables
 
 Name	Value
@@ -157,8 +160,10 @@ In the Specify simulation application page, you set the launch configuration of 
 For Simulation Application, choose the previously created simulation application mini-pupper-simulation
 For Launch Command, specify the launch command as a comma separated list of arguments. 
 
-In this workshop, enter roslaunch, mini_pupper_simulation, aws_stage.launch
-
+In this workshop, enter 
+```
+ros2, launch, mini_pupper_gazebo, gazebo.launch.py, rviz:=false, robot_name:=mini_pupper_2, joint_hardware_connected:=false
+```
 Select Run with streaming session to enable streaming the Gazebo GUI
 For Environment variables specify the following environment variables.
 
