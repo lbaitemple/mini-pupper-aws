@@ -40,9 +40,12 @@ choose
 
  2. **New EC2 instance, Additional instance types, c4.xlarge, Ubuntu Server 22.04, Secure Shell (SSH)**
 
- 3. **setup ROS Humble** by running ```curl -fsSL "https://bit.ly/robomaker2204" | sudo -E bash -```
+ 3. **setup ROS Humble** by running
+    ```
+    curl -fsSL "https://bit.ly/robomaker2204" | sudo -E bash -
+    ```
 
- 4. **wait for 10 minues installation, then restart the instance by typing**
+ 5. **wait for 10 minues installation, then restart the instance by typing**
 ```sudo reboot```
 
 ### Step 2: Setup docker for Robot and Simulation Applications
