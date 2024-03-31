@@ -41,4 +41,4 @@ RUN sudo mkdir -p /config/certs/
 #RUN sudo apt install -y xterm
 
 #CMD ros2 launch mini_pupper_dance enhanced_dance.launch.py  hardware_connected:=false
-ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robomaker-entrypoint" ]
+ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robomaker-entrypoint.sh" ]
