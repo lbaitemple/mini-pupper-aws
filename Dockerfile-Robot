@@ -28,7 +28,7 @@ WORKDIR /home/robomaker/workspace/robot_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y  && colcon build && sudo apt clean"
 
 # Add entrypoint script and grant permission
-COPY scripts/robomaker-entrypoint robomaker-entrypoint
+COPY scripts/robomaker-entrypoint.sh robomaker-entrypoint.sh
 RUN sh -c 'sudo chmod +x robomaker-entrypoint.sh && sudo chown robomaker:robomaker robomaker-entrypoint'
 COPY scripts/flip.sh flip.sh
 RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
