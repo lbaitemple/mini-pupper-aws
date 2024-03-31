@@ -1,7 +1,7 @@
 #!/usr/bin bash
 
 #aws iot describe-endpoint
-export DEPLOYMENT_BUCKET=mangdanglb102123
+export DEPLOYMENT_BUCKET=mangdanglb03292024
 
 export DOCKER=ros-humble-greengrass-minipupper-v2
 export DANCE_FILE=my_dance.py

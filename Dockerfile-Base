@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     lsb  \
     unzip \
     wget \
+    xterm \
     curl \
     sudo \
     python3-vcstool \

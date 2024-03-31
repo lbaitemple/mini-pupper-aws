@@ -26,7 +26,7 @@ COPY scripts/move.sh move.sh
 RUN sh -c 'sudo chmod +x move.sh && sudo chown robomaker:robomaker move.sh'
 
 # xterm for interactive debug
-RUN sudo apt install -y xterm
+#RUN sudo apt install -y xterm
 
 #CMD roslaunch mini_pupper_simulation aws_stage.launch
 ENTRYPOINT [ "/home/robomaker/workspace/simulation_ws/simulation-entrypoint.sh" ]

@@ -7,7 +7,7 @@ services:
     
   pupper-robot:
     image: ros-humble-greengrass-minipupper-v2:latest
-    command: ros2 launch mini_pupper_dance enhanced_dance.launch.py  hardware_connected:=false
+    command: ros2 launch mini_pupper_dance enhanced_dance.launch.py joint_hardware_connected:=true  joint_lidar_connected:=false joint_music_connected:=true
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1

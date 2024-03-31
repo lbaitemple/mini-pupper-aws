@@ -34,7 +34,7 @@ from launch.conditions import IfCondition
 
 
 def generate_launch_description():
-    description_package = FindPackageShare('mini_pupper_description')
+    description_package = FindPackageShare('mini_pupper_2_description')
 
     joints_config_path = PathJoinSubstitution(
         [description_package, 'config', 'champ', 'joints.yaml']
@@ -64,6 +64,7 @@ def generate_launch_description():
     robot_name = LaunchConfiguration("robot_name")
     sim = LaunchConfiguration("sim")
     joint_hardware_connected = LaunchConfiguration("joint_hardware_connected")
+    joint_lidar_connected = LaunchConfiguration("joint_lidar_connected")
     rviz = LaunchConfiguration("rviz")
 
     declare_robot_name = DeclareLaunchArgument(
@@ -89,7 +90,12 @@ def generate_launch_description():
             default_value='true',
             description='Set to true if connected to a physical robot'
         )
-
+        
+    declare_lidar_connected = DeclareLaunchArgument(
+            name='joint_lidar_connected',
+            default_value='false',
+            description='Set to true if connected to a physical lidar'
+        )
     rviz2_node = Node(
             package="rviz2",
             namespace="",
@@ -107,6 +113,7 @@ def generate_launch_description():
             "gazebo": sim,
             "rviz": "false",  # set always false to launch RViz2 with costom .rviz file
             "joint_hardware_connected": joint_hardware_connected,
+            "joint_lidar_connected": joint_lidar_connected,
             "publish_foot_contacts": "true",
             "close_loop_odom": "true",
             "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
@@ -124,7 +131,7 @@ def generate_launch_description():
 
     lidar_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(lidar_launch_path),
-        condition=IfCondition(joint_hardware_connected),
+        condition=IfCondition(joint_lidar_connected),
     )
 
     return LaunchDescription([

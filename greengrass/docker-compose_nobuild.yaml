@@ -2,8 +2,8 @@ version: "3"
 services:
     
   pupper-robot:
-    image: ros-humble-greengrass-minipupper:latest
-    command: ros2 launch mini_pupper_dance enhanced_dance.launch.py  hardware_connected:=false
+    image: ros-humble-greengrass-minipupper-v2:latest
+    command: ros2 launch mini_pupper_dance enhanced_dance.launch.py  joint_lidar_connected:=false joint_music_connected:=true
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
@@ -26,7 +26,7 @@ services:
 
 
   greengrass_bridge:
-    image: ros-humble-greengrass-minipupper:latest
+    image: ros-humble-greengrass-minipupper-v2:latest
     command: ros2 launch greengrass_bridge greengrass_bridge.launch.py ros_topics:="['cdance_config']" iot_topics:="['dance_config']"
     environment:
       - AWS_REGION
@@ -36,3 +36,5 @@ services:
       - AWS_CONTAINER_CREDENTIALS_FULL_URI
     volumes: 
       - "/greengrass/v2/ipc.socket:/greengrass/v2/ipc.socket"
+      - /home/ubuntu/minipupper/routines:/routines
+      - /home/ubuntu/minipupper/playlists:/playlists

@@ -18,6 +18,7 @@ class MiniPupperMusicClientAsync(Node):
     def __init__(self):
         super().__init__('mini_pupper_music_client_async')
         self.cli = self.create_client(MusicCommand, '/music_command')
+        
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         self.req = MusicCommand.Request()
@@ -41,8 +42,11 @@ class DanceDemo(Node):
         self.pitch = 0
         self.yaw = 0
         self.declare_parameter('dance_config_path', rclpy.Parameter.Type.STRING) 
-
+        self.declare_parameter('joint_music_connected', rclpy.Parameter.Type.BOOL) 
+        
         self.dance_config_path = self.get_parameter('dance_config_path').get_parameter_value().string_value
+        self.joint_music_connected = self.get_parameter('joint_music_connected').value
+        self.get_logger().info(str(self.joint_music_connected))
         self.get_logger().info(self.dance_config_path)
         self.get_logger().info(str(self.dance_config_path))
         self.dance_config_name = ' '
@@ -51,8 +55,10 @@ class DanceDemo(Node):
         self.dance_config_sub = self.create_subscription(String, '/dance_config', self.dance_config_callback, 10)
         
         self.velocity_publisher = self.create_publisher(Twist, 'cmd_vel', 100)
-        self.music_publisher = self.create_publisher(String, '/music_config', 100)
-        self.music_client= MiniPupperMusicClientAsync()        
+        
+        if (self.joint_music_connected):
+            self.music_publisher = self.create_publisher(String, '/music_config', 100)
+            self.music_client= MiniPupperMusicClientAsync()        
 
         #self.pose_publisher = self.create_publisher(Pose, 'target_body_pose', 100)
         self.pose_publisher = self.create_publisher(Pose, 'reference_body_pose', 100)
@@ -181,18 +187,14 @@ class DanceDemo(Node):
                     time.sleep(self.dance_config.interval_time)
                     
                 elif (command == 'music' ):
-                        # publish the music topic, call service to turn on/off music based on interval value
-                    #if (value):
-                    #    msg = String()
-                    #    msg.data = value
-                    #    self.music_publisher.publish(msg)
-                    self.get_logger().warn("wwww: " + value )
-                    if (value=="off"):
-                        response = self.music_client.send_request("stop", 'robot1.wav', 0.0)
-                    else:
-                        response = self.music_client.send_request("play", value, float(interval))
-                    if(response.success == True):
-                        self.music_client.get_logger().info('Command Executed!')
+                    if (self.joint_music_connected):
+                        self.get_logger().warn("wwww: " + value )
+                        if (value=="off"):
+                            response = self.music_client.send_request("stop", 'robot1.wav', 0.0)
+                        else:
+                            response = self.music_client.send_request("play", value, float(interval))
+                        if(response.success == True):
+                            self.music_client.get_logger().info('Command Executed!')
 
             
                    # await asyncio.get_event_loop().run_until_complete(self.music_callback(interval))
@@ -200,7 +202,8 @@ class DanceDemo(Node):
                     #self.music_client.send_request(interval)
                         # call service to turn off music
                 elif (command == 'volume' ):
-                    os.system("amixer -c 0 sset 'Headphone' {}%".format(value))                        
+                    if (self.joint_music_connected):
+                        os.system("amixer -c 0 sset 'Headphone' {}%".format(value))                        
  
                 else:
                     self.get_logger().warn('wrong command: ' + str(command))

@@ -13,7 +13,7 @@ tls:
 connection:
   # YOU MUST CHANGE THIS ENDPOINT
   # Can be found by executing: aws iot describe-endpoint
-  host:  a604koyujw9p9.iot.us-east-1.amazonaws.com
+  host:  a52cnyl9c7rpd.iot.us-east-1.amazonaws.com
   port: 8883
   keepalive: 60
 # MQTT parameters
