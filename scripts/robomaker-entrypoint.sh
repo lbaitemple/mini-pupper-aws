@@ -12,4 +12,6 @@ export PYTHONPATH=$PYTHONPATH:$DANCE_CONFIG:/usr/local/lib/python3.10/dist-packa
 printenv
 
 
-exec "${@:1}"
+#exec "${@:1}"
+# Execute the provided command
+exec "$@"
