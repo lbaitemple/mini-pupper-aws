@@ -30,10 +30,8 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-pat
 # Add entrypoint script and grant permission
 COPY scripts/robomaker-entrypoint.sh robomaker-entrypoint.sh
 RUN sh -c 'sudo chmod +x robomaker-entrypoint.sh && sudo chown robomaker:robomaker robomaker-entrypoint.sh'
-COPY scripts/flip.sh flip.sh
-RUN sh -c 'sudo chmod +x flip.sh && sudo chown robomaker:robomaker flip.sh'
-COPY scripts/move.sh move.sh
-RUN sh -c 'sudo chmod +x move.sh && sudo chown robomaker:robomaker move.sh'
+COPY scripts/dance.sh dance.sh
+RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
 RUN sudo mkdir -p /config/certs/
 
