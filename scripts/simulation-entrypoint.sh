@@ -7,4 +7,6 @@ source ./install/setup.sh
 #export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$(rospack find mini_pupper_simulation)/worlds/meshes
 printenv
 
-exec "${@:1}"
+#exec "${@:1}"
+# Execute the provided command
+exec "$@"
