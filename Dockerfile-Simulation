@@ -22,8 +22,8 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --rosdistr
 # Add entrypoint script and grant permission
 COPY scripts/simulation-entrypoint.sh simulation-entrypoint.sh
 RUN sh -c 'sudo chmod +x simulation-entrypoint.sh && sudo chown robomaker:robomaker simulation-entrypoint.sh'
-COPY scripts/move.sh move.sh
-RUN sh -c 'sudo chmod +x move.sh && sudo chown robomaker:robomaker move.sh'
+COPY scripts/dance.sh dance.sh
+RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
 # xterm for interactive debug
 #RUN sudo apt install -y xterm
