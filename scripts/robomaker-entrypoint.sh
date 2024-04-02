@@ -10,7 +10,7 @@ export DANCE_CONFIG=/home/robomaker/routines
 export PYTHONPATH=$PYTHONPATH:$DANCE_CONFIG:/usr/local/lib/python3.10/dist-packages
 
 printenv
-export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'`
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${IOT_ENDPOINT}
 aws s3 sync  s3://${ROS_S3}/artifacts/routines /home/robomaker/routines
 
 
