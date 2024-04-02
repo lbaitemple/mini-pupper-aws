@@ -21,6 +21,7 @@ ADD robot_ws/src/mini_pupper_ros/mini_pupper_dance/routines /home/robomaker/mini
 ADD simulation_ws/src /home/robomaker/workspace/simulation_ws/src
 RUN sudo rosdep fix-permissions && rosdep update --include-eol-distros
 
+RUN mkdir /home/robomaker/routines
 WORKDIR /home/robomaker/workspace/robot_ws
 
 
@@ -37,6 +38,10 @@ RUN sudo mkdir -p /config/certs/
 
 # xterm for interactive debug
 #RUN sudo apt install -y xterm
+# install aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
 
 #CMD ros2 launch mini_pupper_dance enhanced_dance.launch.py  hardware_connected:=false
 ENTRYPOINT [ "/home/robomaker/workspace/robot_ws/robomaker-entrypoint.sh" ]
