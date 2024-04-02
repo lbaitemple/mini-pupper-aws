@@ -6,13 +6,13 @@ source /opt/ros/humble/setup.bash
 source /home/robomaker/workspace/robot_ws/install/setup.sh
 #source /opt/greengrass_bridge/setup.bash
 source /opt/ros/humble/setup.bash
-
+export DANCE_CONFIG=/home/robomaker/routines
 export PYTHONPATH=$PYTHONPATH:$DANCE_CONFIG:/usr/local/lib/python3.10/dist-packages
 
 printenv
-
+export IOT_ENDPOINT=`aws iot describe-endpoint | grep amazon | cut -d: -f 2 | sed 's/\"//g'`
 aws s3 sync  s3://${ROS_S3}/artifacts/routines /home/robomaker/routines
-export DANCE_CONFIG=/home/robomaker/routines
+
 
 #exec "${@:1}"
 # Execute the provided command
