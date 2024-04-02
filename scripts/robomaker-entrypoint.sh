@@ -11,6 +11,7 @@ export PYTHONPATH=$PYTHONPATH:$DANCE_CONFIG:/usr/local/lib/python3.10/dist-packa
 
 printenv
 
+aws s3 sync  s3://${ROS_S3}/artifacts/routines /home/robomaker/routines
 
 #exec "${@:1}"
 # Execute the provided command
