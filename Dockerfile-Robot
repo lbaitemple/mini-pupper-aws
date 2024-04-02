@@ -36,7 +36,10 @@ RUN sh -c 'sudo chmod +x dance.sh && sudo chown robomaker:robomaker dance.sh'
 
 RUN sudo mkdir -p /config/certs/
 
-RUN wget https://raw.githubusercontent.com/aws-samples/robotics-boilerplate/main/install-docker.sh &&  bash ./install-docker.sh 
+## Install docker
+ENV DOCKER_CLI_VERSION="20.10.8"
+RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz | tar -xzC /usr/local/bin --strip=1 docker/docker
+#RUN wget https://raw.githubusercontent.com/aws-samples/robotics-boilerplate/main/install-docker.sh &&  bash ./install-docker.sh 
  
 # curl install and  install aws cli
 RUN sudo apt install -y curl && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install
