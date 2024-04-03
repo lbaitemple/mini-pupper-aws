@@ -11,7 +11,7 @@ export PYTHONPATH=$PYTHONPATH:$DANCE_CONFIG:/usr/local/lib/python3.10/dist-packa
 
 printenv
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${IOT_ENDPOINT}
-aws s3 sync  s3://${ROS_S3}/artifacts/routines /home/robomaker/routines
+aws s3 sync  s3://${ROS_S3}/mini_pupper/artifacts/routines /home/robomaker/routines
 
 
 #exec "${@:1}"
