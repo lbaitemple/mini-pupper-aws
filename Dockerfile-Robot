@@ -38,7 +38,7 @@ RUN sudo mkdir -p /config/certs/
 
 ## Install docker
 #RUN wget https://raw.githubusercontent.com/aws-samples/robotics-boilerplate/main/install-docker.sh &&  sudo bash ./install-docker.sh 
-RUN wget https://raw.githubusercontent.com/moby/moby/master/contrib/rootless/dockerd-rootless-setuptool.sh && \
+RUN wget https://raw.githubusercontent.com/moby/moby/master/contrib/dockerd-rootless-setuptool.sh && \
     chmod +x dockerd-rootless-setuptool.sh && \
     ./dockerd-rootless-setuptool.sh install
 
