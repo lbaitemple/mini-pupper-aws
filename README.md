@@ -154,6 +154,8 @@ ROS_IP	ROBOMAKER_ROBOT_APP_IP
 
 ROS_MASTER_URI	http://ROBOMAKER_ROBOT_APP_IP:11311
 
+ROS_S3	 (s3 bucket public)
+
 
 In the Specify simulation application page, you set the launch configuration of the simulation application.
 
