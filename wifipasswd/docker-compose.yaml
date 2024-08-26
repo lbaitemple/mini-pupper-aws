@@ -1,0 +1,6 @@
+version: "3"
+services: 
+  my_image:
+    build: 
+        context: ./
+    image: bionic-bai:latest
